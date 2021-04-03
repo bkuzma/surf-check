@@ -3,7 +3,7 @@ import axios from "axios"
 
 import { format, parseISO } from 'date-fns';
 import forecast from './fixtures/forecast.json'
-import { METJSONForecast } from './api'
+import { METJSONForecast } from './types/yr'
 import "./App.css"
 
 const LOCATION_BORE = {
