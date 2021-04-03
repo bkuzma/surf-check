@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import axios from "axios"
 
 import { format, parseISO } from 'date-fns';
-import forecast from './fixtures/forecast.json'
+import yrForecast from './fixtures/yr-forecast.json'
 import { METJSONForecast } from './types/yr'
 import "./App.css"
 
@@ -14,7 +14,7 @@ const LOCATION_BORE = {
 const requestURL = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat=${LOCATION_BORE.lat}&lon=${LOCATION_BORE.long}`
 
 function App() {
-	const [data, setData] = useState<METJSONForecast | undefined>(forecast as METJSONForecast)
+	const [data, setData] = useState<METJSONForecast | undefined>(yrForecast as METJSONForecast)
 
   const onClickFetch = async () => {
 		const response = await axios.get(requestURL)
