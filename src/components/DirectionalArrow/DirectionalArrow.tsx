@@ -10,7 +10,7 @@ function Arrow(props: ArrowProps) {
   return (
     <ArrowDown
       style={{
-        transform: `rotate(${props.degrees + 180}deg)`,
+        transform: `rotate(${props.degrees}deg)`,
       }}
       width="20"
     />

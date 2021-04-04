@@ -31,7 +31,7 @@ function App() {
 
   const renderSwell = (swellComponent: SwellComponent) => (
     <div className="flex">
-      <DirectionalArrow degrees={swellComponent.direction} />
+      <DirectionalArrow degrees={swellComponent.direction + 180} />
       <span>{`${swellComponent.height}`}</span>
       <span>{`${swellComponent.period} seconds`}</span>
     </div>
