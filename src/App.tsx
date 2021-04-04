@@ -1,12 +1,13 @@
 import "./App.css"
 
 import axios from "axios"
-import { format, parseISO } from "date-fns"
+import { format, fromUnixTime, parseISO } from "date-fns"
 import React, { useState } from "react"
 
+import DirectionalArrow from "./components/DirectionalArrow/DirectionalArrow"
 import mswForecast from "./fixtures/msw-forecast.json"
 import yrForecast from "./fixtures/yr-forecast.json"
-import { RootObject } from "./types/msw"
+import { RootObject, SwellComponent } from "./types/msw"
 import { METJSONForecast } from "./types/yr"
 
 const LOCATION_BORE = {
@@ -28,63 +29,83 @@ function App() {
     setData(response.data)
   }
 
+  const renderSwell = (swellComponent: SwellComponent) => (
+    <div className="flex">
+      <DirectionalArrow degrees={swellComponent.direction} />
+      <span>{`${swellComponent.height}`}</span>
+      <span>{`${swellComponent.period} seconds`}</span>
+    </div>
+  )
+
   return (
     <div>
       <button onClick={onClickFetch}>Fetch YR Data</button>
 
-      <table>
-        <thead>
-          <tr>
-            <td>Time</td>
-            <td>Wind Direction</td>
-            <td>Wind Speed</td>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.properties.timeseries.map((time, index) => {
-            return (
-              <tr key={index}>
-                <td>{format(parseISO(time.time), "EEEE, MMM dd HH:mm")}</td>
-                <td>{time.data.instant.details?.wind_from_direction}</td>
-                <td>{time.data.instant.details?.wind_speed}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-
-      <table>
-        <thead>
-          <tr>
-            <td>Time</td>
-            <td>Primary Swell</td>
-            <td>Secondary Swell</td>
-            <td>Tertiary Swell</td>
-          </tr>
-        </thead>
-        <tbody>
-          {mswData.map((rootObject, index) => {
-            return (
-              <tr key={index}>
-                <td>
-                  {format(new Date(rootObject.timestamp), "EEEE, MMM dd HH:mm")}
-                </td>
-                <td>
-                  {`${rootObject.swell.components.primary.direction} ${rootObject.swell.components.primary.height} ${rootObject.swell.components.primary.period} seconds`}
-                </td>
-                <td>
-                  {rootObject.swell.components.secondary &&
-                    `${rootObject.swell.components.secondary.direction} ${rootObject.swell.components.secondary.height} ${rootObject.swell.components.secondary.period} seconds`}
-                </td>
-                <td>
-                  {rootObject.swell.components.tertiary &&
-                    `${rootObject.swell.components.tertiary.direction} ${rootObject.swell.components.tertiary.height} ${rootObject.swell.components.tertiary.period} seconds`}
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      <div className="flex">
+        <table className="divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <td>Time</td>
+              <td>Wind Direction</td>
+              <td>Wind Speed</td>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {data?.properties.timeseries.map((time, index) => {
+              return (
+                <tr key={index}>
+                  <td>
+                    {format(parseISO(time.time), "EEEE, MMM dd yyyy HH:mm")}
+                  </td>
+                  <td>
+                    {time.data.instant.details?.wind_from_direction ? (
+                      <DirectionalArrow
+                        degrees={time.data.instant.details?.wind_from_direction}
+                      />
+                    ) : (
+                      "n/a"
+                    )}
+                  </td>
+                  <td>{time.data.instant.details?.wind_speed}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+        <table className="divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <td>Time</td>
+              <td>Primary Swell</td>
+              <td>Secondary Swell</td>
+              <td>Tertiary Swell</td>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {mswData.map((rootObject, index) => {
+              return (
+                <tr key={index}>
+                  <td>
+                    {format(
+                      fromUnixTime(rootObject.localTimestamp),
+                      "EEEE, MMM dd yyyy HH:mm"
+                    )}
+                  </td>
+                  <td>{renderSwell(rootObject.swell.components.primary)}</td>
+                  <td>
+                    {rootObject.swell.components.secondary &&
+                      renderSwell(rootObject.swell.components.secondary)}
+                  </td>
+                  <td>
+                    {rootObject.swell.components.tertiary &&
+                      renderSwell(rootObject.swell.components.tertiary)}
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

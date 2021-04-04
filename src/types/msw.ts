@@ -5,21 +5,7 @@ export interface Combined {
   compassDirection: string
 }
 
-export interface Primary {
-  height: number
-  period: number
-  direction: number
-  compassDirection: string
-}
-
-export interface Secondary {
-  height: number
-  period: number
-  direction: number
-  compassDirection: string
-}
-
-export interface Tertiary {
+export interface SwellComponent {
   height: number
   period: number
   direction: number
@@ -28,9 +14,9 @@ export interface Tertiary {
 
 export interface Components {
   combined: Combined
-  primary: Primary
-  secondary?: Secondary
-  tertiary?: Tertiary
+  primary: SwellComponent
+  secondary?: SwellComponent
+  tertiary?: SwellComponent
 }
 
 export interface Swell {
