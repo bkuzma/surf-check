@@ -2,11 +2,9 @@ import "./App.css"
 
 import axios from "axios"
 import { fromUnixTime, isEqual, parseISO } from "date-fns"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import ForecastTable from "./components/ForecastTable/ForecastTable"
-import mswForecast from "./fixtures/msw-forecast.json"
-import yrForecast from "./fixtures/yr-forecast.json"
 import { RootObject } from "./types/msw"
 import { METJSONForecast } from "./types/yr"
 
@@ -15,18 +13,28 @@ const LOCATION_BORE = {
   long: 5.5384,
 }
 
-const requestURL = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat=${LOCATION_BORE.lat}&lon=${LOCATION_BORE.long}`
+const yrUrl = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat=${LOCATION_BORE.lat}&lon=${LOCATION_BORE.long}`
+const mswUrl = "/api/magic-seaweed-forecast"
 
 function App() {
-  const [yrData, setYrData] = useState<METJSONForecast | undefined>(
-    yrForecast as METJSONForecast
-  )
+  const [yrData, setYrData] = useState<METJSONForecast | undefined>()
+  const [mswData, setMswData] = useState<RootObject[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  const mswData: RootObject[] = mswForecast
+  useEffect(() => {
+    fetchData()
+  }, [])
 
-  const onClickFetch = async () => {
-    const response = await axios.get(requestURL)
-    setYrData(response.data)
+  const fetchData = async () => {
+    let yrResponse
+    let mswResponse
+
+    yrResponse = (await axios.get(yrUrl)).data
+    mswResponse = (await axios.get(mswUrl)).data
+
+    setYrData(yrResponse)
+    setMswData(mswResponse)
+    setIsLoading(false)
   }
 
   const forecastTimes =
@@ -67,8 +75,7 @@ function App() {
 
   return (
     <div>
-      <button onClick={onClickFetch}>Fetch YR Data</button>
-      <ForecastTable times={forecastTimes} />
+      {isLoading ? "Loading..." : <ForecastTable times={forecastTimes} />}
     </div>
   )
 }
