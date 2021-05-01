@@ -31,7 +31,7 @@ function ForecastTable(props: ForecastTableProps) {
     <div className="flex space-x-4">
       <DirectionalArrow degrees={swellComponent.direction + 180} />
       <span>
-        {`${swellComponent.height}`} ft @ {`${swellComponent.period}s`}
+        {`${swellComponent.height}`} m @ {`${swellComponent.period}s`}
       </span>
     </div>
   )
