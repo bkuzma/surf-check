@@ -9,19 +9,21 @@ interface Swell {
   period: number
 }
 
+export interface ForecastTableRow {
+  time: string
+  swells: {
+    primary?: Swell
+    secondary?: Swell
+    tertiary?: Swell
+  }
+  wind: {
+    direction?: number
+    speed?: number
+  }
+}
+
 export interface ForecastTableProps {
-  times: {
-    time: string
-    swells: {
-      primary?: Swell
-      secondary?: Swell
-      tertiary?: Swell
-    }
-    wind: {
-      direction?: number
-      speed?: number
-    }
-  }[]
+  times: ForecastTableRow[]
 }
 
 function ForecastTable(props: ForecastTableProps) {
@@ -37,7 +39,9 @@ function ForecastTable(props: ForecastTableProps) {
     <table className="divide-y divide-gray-200">
       <thead className="bg-gray-50">
         <tr>
-          <th className={styles.th}>Time</th>
+          <th className={styles.th}>
+            {format(parseISO(props.times[0].time), "EEEE, MMM dd")}
+          </th>
           <th className={styles.th}>Wind Direction</th>
           <th className={styles.th}>Wind Speed</th>
           <th className={styles.th}>Primary Swell</th>
@@ -49,7 +53,7 @@ function ForecastTable(props: ForecastTableProps) {
         {props.times.map((time) => (
           <tr key={time.time}>
             <td className={styles.td}>
-              {format(parseISO(time.time), "EEEE, MMM dd yyyy HH:mm")}
+              {format(parseISO(time.time), "HH:mm")}
             </td>
             <td className={styles.td}>
               {time.wind.direction && (
