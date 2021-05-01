@@ -42,8 +42,7 @@ function ForecastTable(props: ForecastTableProps) {
           <th className={styles.th}>
             {format(parseISO(props.times[0].time), "EEEE, MMM dd")}
           </th>
-          <th className={styles.th}>Wind Direction</th>
-          <th className={styles.th}>Wind Speed</th>
+          <th className={styles.th}>Wind</th>
           <th className={styles.th}>Primary Swell</th>
           <th className={styles.th}>Secondary Swell</th>
           <th className={styles.th}>Tertiary Swell</th>
@@ -56,11 +55,13 @@ function ForecastTable(props: ForecastTableProps) {
               {format(parseISO(time.time), "HH:mm")}
             </td>
             <td className={styles.td}>
-              {time.wind.direction && (
-                <DirectionalArrow degrees={time.wind.direction} />
-              )}
+              <div className="flex space-x-4">
+                {time.wind.direction && (
+                  <DirectionalArrow degrees={time.wind.direction} />
+                )}
+                <span>{time.wind.speed} m/s</span>
+              </div>
             </td>
-            <td className={styles.td}>{time.wind.speed}</td>
             <td className={styles.td}>
               {time.swells.primary && renderSwell(time.swells.primary)}
             </td>
