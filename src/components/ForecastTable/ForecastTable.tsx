@@ -37,11 +37,13 @@ function ForecastTable(props: ForecastTableProps) {
   )
 
   return (
-    <table className="divide-y divide-gray-200">
-      <thead className="bg-gray-50">
+    <table className="divide-y divide-gray-200 border border-gray-200 mx-auto">
+      <thead className="bg-blue-50">
         <tr>
-          <th className={styles.th}>
-            {format(parseISO(props.times[0].time), "EEEE, MMM dd")}
+          <th className={styles.th + " w-32"}>
+            {format(parseISO(props.times[0].time), "EEEE")}
+            <br />
+            {format(parseISO(props.times[0].time), "MMM dd")}
           </th>
           <th className={styles.th}>Wind</th>
           <th className={styles.th}>Primary Swell</th>

@@ -86,7 +86,7 @@ function App() {
   })
 
   return (
-    <div>
+    <div className="space-y-5 py-5 container mx-auto">
       {isLoading
         ? "Loading..."
         : Object.keys(forecastDays).map((forecastDayKey) => (
