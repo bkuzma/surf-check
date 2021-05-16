@@ -28,12 +28,7 @@ export interface ForecastTableProps {
 
 function ForecastTable(props: ForecastTableProps) {
   const renderSwell = (swellComponent: Swell) => (
-    <div className="flex space-x-2 text-xs">
-      <DirectionalArrow degrees={swellComponent.direction + 180} />
-      <span>
-        {`${swellComponent.height}`}m @ {`${swellComponent.period}s`}
-      </span>
-    </div>
+    <div className="flex space-x-2 text-xs">swell</div>
   )
 
   const tableHeaders = [
@@ -75,8 +70,6 @@ function ForecastTable(props: ForecastTableProps) {
             </td>
             <td className="px-3 space-y-1">
               {time.swells.primary && renderSwell(time.swells.primary)}
-              {time.swells.secondary && renderSwell(time.swells.secondary)}
-              {time.swells.tertiary && renderSwell(time.swells.tertiary)}
             </td>
           </tr>
         ))}
