@@ -1,7 +1,7 @@
+import classNames from "classnames"
 import { format, parseISO } from "date-fns"
 
 import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
-import styles from "./ForecastTable.module.css"
 
 interface Swell {
   direction: number
@@ -28,50 +28,54 @@ export interface ForecastTableProps {
 
 function ForecastTable(props: ForecastTableProps) {
   const renderSwell = (swellComponent: Swell) => (
-    <div className="flex space-x-4">
+    <div className="flex space-x-2 text-xs">
       <DirectionalArrow degrees={swellComponent.direction + 180} />
       <span>
-        {`${swellComponent.height}`} m @ {`${swellComponent.period}s`}
+        {`${swellComponent.height}`}m @ {`${swellComponent.period}s`}
       </span>
     </div>
   )
 
+  const tableHeaders = [
+    format(parseISO(props.times[0].time), "EE M-dd"),
+    "🌬 Wind",
+    "🌊 Swell",
+  ]
+
   return (
-    <table className="divide-y divide-gray-200 border border-gray-200 mx-auto">
-      <thead className="bg-blue-50">
+    <table className="mx-auto w-full">
+      <thead>
         <tr>
-          <th className={styles.th + " w-32"}>
-            {format(parseISO(props.times[0].time), "EEEE")}
-            <br />
-            {format(parseISO(props.times[0].time), "MMM dd")}
-          </th>
-          <th className={styles.th}>Wind</th>
-          <th className={styles.th}>Primary Swell</th>
-          <th className={styles.th}>Secondary Swell</th>
-          <th className={styles.th}>Tertiary Swell</th>
+          {tableHeaders.map((tableHeader, i) => (
+            <th
+              key={i}
+              className="px-3 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider sticky top-0 bg-yellow-300 z-10 w-1/3"
+            >
+              {tableHeader}
+            </th>
+          ))}
         </tr>
       </thead>
-      <tbody className="text-sm font-medium text-gray-900 bg-white divide-y divide-gray-200">
+      <tbody className="text-sm font-medium text-gray-900 bg-white">
         {props.times.map((time) => (
-          <tr key={time.time}>
-            <td className={styles.td}>
-              {format(parseISO(time.time), "HH:mm")}
-            </td>
-            <td className={styles.td}>
-              <div className="flex space-x-4">
+          <tr
+            key={time.time}
+            className={classNames("bg-white h-24", {
+              "bg-blue-50": time.swells.primary,
+            })}
+          >
+            <td className="px-3">{format(parseISO(time.time), "HH:mm")}</td>
+            <td className="px-3">
+              <div className="flex space-x-2">
                 {time.wind.direction && (
                   <DirectionalArrow degrees={time.wind.direction} />
                 )}
                 <span>{time.wind.speed} m/s</span>
               </div>
             </td>
-            <td className={styles.td}>
+            <td className="px-3 space-y-1">
               {time.swells.primary && renderSwell(time.swells.primary)}
-            </td>
-            <td className={styles.td}>
               {time.swells.secondary && renderSwell(time.swells.secondary)}
-            </td>
-            <td className={styles.td}>
               {time.swells.tertiary && renderSwell(time.swells.tertiary)}
             </td>
           </tr>

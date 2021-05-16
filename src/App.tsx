@@ -86,15 +86,22 @@ function App() {
   })
 
   return (
-    <div className="space-y-5 py-5 container mx-auto">
-      {isLoading
-        ? "Loading..."
-        : Object.keys(forecastDays).map((forecastDayKey) => (
+    <div className="pb-5 container mx-auto">
+      {isLoading ? (
+        "Loading..."
+      ) : (
+        <>
+          <h1 className="text-xl py-4 bg-green-500 text-center">
+            🚜 Jæren Surf Check 🏄
+          </h1>
+          {Object.keys(forecastDays).map((forecastDayKey) => (
             <ForecastTable
               key={forecastDayKey}
               times={forecastDays[forecastDayKey]}
             />
           ))}
+        </>
+      )}
     </div>
   )
 }
