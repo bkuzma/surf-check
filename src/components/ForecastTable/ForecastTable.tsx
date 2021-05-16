@@ -1,8 +1,6 @@
 import classNames from "classnames"
 import { format, parseISO } from "date-fns"
 
-import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
-
 interface Swell {
   direction: number
   height: number
