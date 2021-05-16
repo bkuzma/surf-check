@@ -12,6 +12,7 @@ function Arrow(props: ArrowProps) {
       style={{
         transform: `rotate(${props.degrees}deg)`,
       }}
+      height="20"
       width="20"
     />
   )
