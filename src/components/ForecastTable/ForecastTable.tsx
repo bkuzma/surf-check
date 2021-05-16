@@ -28,7 +28,11 @@ export interface ForecastTableProps {
 
 function ForecastTable(props: ForecastTableProps) {
   const renderSwell = (swellComponent: Swell) => (
-    <div className="flex space-x-2 text-xs">swell</div>
+    <div className="flex space-x-2 text-xs">
+      <span>
+        {`${swellComponent.height}`}m @ {`${swellComponent.period}s`}
+      </span>
+    </div>
   )
 
   const tableHeaders = [
@@ -62,14 +66,13 @@ function ForecastTable(props: ForecastTableProps) {
             <td className="px-3">{format(parseISO(time.time), "HH:mm")}</td>
             <td className="px-3">
               <div className="flex space-x-2">
-                {time.wind.direction && (
-                  <DirectionalArrow degrees={time.wind.direction} />
-                )}
                 <span>{time.wind.speed} m/s</span>
               </div>
             </td>
             <td className="px-3 space-y-1">
               {time.swells.primary && renderSwell(time.swells.primary)}
+              {time.swells.secondary && renderSwell(time.swells.secondary)}
+              {time.swells.tertiary && renderSwell(time.swells.tertiary)}
             </td>
           </tr>
         ))}
