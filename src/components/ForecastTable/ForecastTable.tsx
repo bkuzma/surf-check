@@ -1,6 +1,8 @@
 import classNames from "classnames"
 import { format, parseISO } from "date-fns"
 
+import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
+
 interface Swell {
   direction: number
   height: number
@@ -27,6 +29,7 @@ export interface ForecastTableProps {
 function ForecastTable(props: ForecastTableProps) {
   const renderSwell = (swellComponent: Swell) => (
     <div className="flex space-x-2 text-xs">
+      <DirectionalArrow degrees={swellComponent.direction + 180} />
       <span>
         {`${swellComponent.height}`}m @ {`${swellComponent.period}s`}
       </span>
@@ -64,6 +67,9 @@ function ForecastTable(props: ForecastTableProps) {
             <td className="px-3">{format(parseISO(time.time), "HH:mm")}</td>
             <td className="px-3">
               <div className="flex space-x-2">
+                {time.wind.direction && (
+                  <DirectionalArrow degrees={time.wind.direction} />
+                )}
                 <span>{time.wind.speed} m/s</span>
               </div>
             </td>

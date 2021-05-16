@@ -7,14 +7,7 @@ interface ArrowProps {
 }
 
 function Arrow(props: ArrowProps) {
-  return (
-    <ArrowDown
-      style={{
-        transform: `rotate(${props.degrees}deg)`,
-      }}
-      width="20"
-    />
-  )
+  return <ArrowDown style={{}} width="20" />
 }
 
 export default Arrow
