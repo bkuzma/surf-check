@@ -7,6 +7,8 @@ import React, { useEffect, useState } from "react"
 import ForecastTable, {
   ForecastTableRow,
 } from "./components/ForecastTable/ForecastTable"
+import Settings from "./components/Settings/Settings"
+import SettingsContext from "./contexts/settings-context"
 import { RootObject } from "./types/msw"
 import { METJSONForecast } from "./types/yr"
 
@@ -22,6 +24,8 @@ function App() {
   const [yrData, setYrData] = useState<METJSONForecast | undefined>()
   const [mswData, setMswData] = useState<RootObject[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [swellUnits, setSwellUnits] = useState("feet")
+  const [windUnits, setWindUnits] = useState("mph")
 
   useEffect(() => {
     fetchData()
@@ -86,23 +90,35 @@ function App() {
   })
 
   return (
-    <div className="pb-5 container mx-auto">
-      {isLoading ? (
-        "Loading..."
-      ) : (
-        <>
-          <h1 className="text-xl py-4 bg-green-500 text-center">
-            🚜 Jæren Surf Check 🏄
-          </h1>
-          {Object.keys(forecastDays).map((forecastDayKey) => (
-            <ForecastTable
-              key={forecastDayKey}
-              times={forecastDays[forecastDayKey]}
-            />
-          ))}
-        </>
-      )}
-    </div>
+    <SettingsContext.Provider
+      value={{
+        setSwellUnits,
+        setWindUnits,
+        swellUnits,
+        windUnits,
+      }}
+    >
+      <div className="pb-5 container mx-auto">
+        {isLoading ? (
+          "Loading..."
+        ) : (
+          <>
+            <header className="py-5 bg-green-500">
+              <h1 className="text-xl text-center mb-4">
+                🚜 Jæren Surf Check 🏄
+              </h1>
+              <Settings />
+            </header>
+            {Object.keys(forecastDays).map((forecastDayKey) => (
+              <ForecastTable
+                key={forecastDayKey}
+                times={forecastDays[forecastDayKey]}
+              />
+            ))}
+          </>
+        )}
+      </div>
+    </SettingsContext.Provider>
   )
 }
 
