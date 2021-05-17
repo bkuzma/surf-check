@@ -6,7 +6,7 @@ const getMagicSeaweedForcast = async (
   response: VercelResponse
 ) => {
   const forecast = await fetch(
-    `http://magicseaweed.com/api/${process.env.MSW_API_TOKEN}/forecast/?spot_id=1886`
+    `http://magicseaweed.com/api/${process.env.MSW_API_TOKEN}/forecast/?spot_id=1886&units=us`
   )
   const data = await forecast.json()
 
