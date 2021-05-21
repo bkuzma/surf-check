@@ -122,7 +122,9 @@ function App() {
       ) : (
         <div className="pb-5 container mx-auto">
           <header className="py-5 bg-green-500">
-            <h1 className="text-xl text-center mb-4">🚜 Jæren Surf Check 🏄</h1>
+            <h1 className="text-xl text-center mb-4 font-medium text-gray-900 uppercase tracking-wider">
+              🚜 Jæren Surf Check 🏄
+            </h1>
             <Settings />
           </header>
           {Object.keys(forecastDays).map((forecastDayKey) => (
