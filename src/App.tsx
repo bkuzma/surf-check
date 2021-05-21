@@ -17,6 +17,11 @@ const LOCATION_BORE = {
   long: 5.5384,
 }
 
+const LOCAL_STORAGE_KEYS = {
+  SWELL_UNITS: "SWELL_UNITS",
+  WIND_UNITS: "WIND_UNITS",
+}
+
 const yrUrl = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat=${LOCATION_BORE.lat}&lon=${LOCATION_BORE.long}`
 const mswUrl = "/api/magic-seaweed-forecast"
 
@@ -24,8 +29,12 @@ function App() {
   const [yrData, setYrData] = useState<METJSONForecast | undefined>()
   const [mswData, setMswData] = useState<RootObject[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [swellUnits, setSwellUnits] = useState("feet")
-  const [windUnits, setWindUnits] = useState("mph")
+  const [swellUnits, setSwellUnits] = useState(
+    localStorage.getItem(LOCAL_STORAGE_KEYS.SWELL_UNITS) || "feet"
+  )
+  const [windUnits, setWindUnits] = useState(
+    localStorage.getItem(LOCAL_STORAGE_KEYS.WIND_UNITS) || "mph"
+  )
 
   useEffect(() => {
     fetchData()
@@ -92,8 +101,14 @@ function App() {
   return (
     <SettingsContext.Provider
       value={{
-        setSwellUnits,
-        setWindUnits,
+        setSwellUnits: (value) => {
+          setSwellUnits(value)
+          localStorage.setItem(LOCAL_STORAGE_KEYS.SWELL_UNITS, value)
+        },
+        setWindUnits: (value) => {
+          setWindUnits(value)
+          localStorage.setItem(LOCAL_STORAGE_KEYS.WIND_UNITS, value)
+        },
         swellUnits,
         windUnits,
       }}
