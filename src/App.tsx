@@ -113,26 +113,26 @@ function App() {
         windUnits,
       }}
     >
-      <div className="pb-5 container mx-auto">
-        {isLoading ? (
-          "Loading..."
-        ) : (
-          <>
-            <header className="py-5 bg-green-500">
-              <h1 className="text-xl text-center mb-4">
-                🚜 Jæren Surf Check 🏄
-              </h1>
-              <Settings />
-            </header>
-            {Object.keys(forecastDays).map((forecastDayKey) => (
-              <ForecastTable
-                key={forecastDayKey}
-                times={forecastDays[forecastDayKey]}
-              />
-            ))}
-          </>
-        )}
-      </div>
+      {isLoading ? (
+        <div className="h-screen w-screen fixed bg-yellow-50 flex items-center justify-center">
+          <span className="text-md animate-pulse font-medium text-gray-700 uppercase tracking-wider">
+            🧘 Loading Forecast
+          </span>
+        </div>
+      ) : (
+        <div className="pb-5 container mx-auto">
+          <header className="py-5 bg-green-500">
+            <h1 className="text-xl text-center mb-4">🚜 Jæren Surf Check 🏄</h1>
+            <Settings />
+          </header>
+          {Object.keys(forecastDays).map((forecastDayKey) => (
+            <ForecastTable
+              key={forecastDayKey}
+              times={forecastDays[forecastDayKey]}
+            />
+          ))}
+        </div>
+      )}
     </SettingsContext.Provider>
   )
 }
