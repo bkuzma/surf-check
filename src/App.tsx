@@ -1,6 +1,7 @@
 import "./App.css"
 
 import axios from "axios"
+import classNames from "classnames"
 import { format, fromUnixTime, isEqual, parseISO } from "date-fns"
 import React, { useEffect, useState } from "react"
 
@@ -18,6 +19,7 @@ const LOCATION_BORE = {
 }
 
 const LOCAL_STORAGE_KEYS = {
+  DARK_MODE: "DARK_MODE",
   SWELL_UNITS: "SWELL_UNITS",
   WIND_UNITS: "WIND_UNITS",
 }
@@ -29,6 +31,9 @@ function App() {
   const [yrData, setYrData] = useState<METJSONForecast | undefined>()
   const [mswData, setMswData] = useState<RootObject[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem(LOCAL_STORAGE_KEYS.DARK_MODE) || "system"
+  )
   const [swellUnits, setSwellUnits] = useState(
     localStorage.getItem(LOCAL_STORAGE_KEYS.SWELL_UNITS) || "feet"
   )
@@ -101,6 +106,11 @@ function App() {
   return (
     <SettingsContext.Provider
       value={{
+        darkMode,
+        setDarkMode: (setting) => {
+          setDarkMode(setting)
+          localStorage.setItem(LOCAL_STORAGE_KEYS.DARK_MODE, setting)
+        },
         setSwellUnits: (value) => {
           setSwellUnits(value)
           localStorage.setItem(LOCAL_STORAGE_KEYS.SWELL_UNITS, value)
@@ -113,28 +123,37 @@ function App() {
         windUnits,
       }}
     >
-      {isLoading ? (
-        <div className="h-screen w-screen fixed bg-yellow-50 flex items-center justify-center">
-          <span className="text-md animate-pulse font-medium text-gray-700 uppercase tracking-wider">
-            🧘 Loading Forecast
-          </span>
-        </div>
-      ) : (
-        <div className="pb-5 container mx-auto">
-          <header className="py-5 bg-green-500">
-            <h1 className="text-xl text-center mb-4 font-medium text-gray-900 uppercase tracking-wider">
-              🚜 Jæren Surf Check 🏄
-            </h1>
-            <Settings />
-          </header>
-          {Object.keys(forecastDays).map((forecastDayKey) => (
-            <ForecastTable
-              key={forecastDayKey}
-              times={forecastDays[forecastDayKey]}
-            />
-          ))}
-        </div>
-      )}
+      <div
+        className={classNames({
+          dark:
+            darkMode === "on" ||
+            (darkMode === "system" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches),
+        })}
+      >
+        {isLoading ? (
+          <div className="h-screen w-screen fixed bg-yellow-50 dark:bg-gray-800 flex items-center justify-center">
+            <span className="text-md animate-pulse font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+              🧘 Loading Forecast
+            </span>
+          </div>
+        ) : (
+          <div className="pb-5 container mx-auto">
+            <header className="py-5 bg-green-500 dark:bg-green-900">
+              <h1 className="text-xl text-center mb-4 font-medium text-gray-900 dark:text-yellow-300 uppercase tracking-wider">
+                🚜 Jæren Surf Check 🏄
+              </h1>
+              <Settings />
+            </header>
+            {Object.keys(forecastDays).map((forecastDayKey) => (
+              <ForecastTable
+                key={forecastDayKey}
+                times={forecastDays[forecastDayKey]}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </SettingsContext.Provider>
   )
 }

@@ -62,7 +62,7 @@ function ForecastTable(props: ForecastTableProps) {
           {tableHeaders.map((tableHeader, i) => (
             <th
               key={i}
-              className="px-3 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider sticky top-0 bg-yellow-300 z-10 w-1/3"
+              className="px-3 py-3 text-left text-xs font-medium text-gray-900 dark:text-yellow-300 uppercase tracking-wider sticky top-0 bg-yellow-300 dark:bg-gray-900 z-10 w-1/3"
             >
               {tableHeader}
             </th>
@@ -88,9 +88,11 @@ function ForecastTable(props: ForecastTableProps) {
           return (
             <tr
               key={time.time}
-              className={classNames("bg-white h-24", {
-                "bg-blue-50": time.swells.primary,
-              })}
+              className={classNames("dark:text-gray-300 h-24", [
+                time.swells.primary
+                  ? "bg-blue-50 dark:bg-gray-700"
+                  : "bg-white dark:bg-gray-800",
+              ])}
             >
               <td className="px-3">{format(parseISO(time.time), "HH:mm")}</td>
               <td className="px-3">
