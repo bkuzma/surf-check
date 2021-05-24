@@ -15,11 +15,10 @@ function Settings() {
   return (
     <div className="px-3 space-y-3 text-xs text-gray-900 dark:text-yellow-300 font-medium uppercase tracking-wider">
       <div>
-        <label className="block mb-1" htmlFor="swellUnits">
+        <label className="mr-2" htmlFor="swellUnits">
           🌊 Swell Units:
         </label>
         <select
-          className="relative w-full py-1 pl-2 bg-blue-50 dark:bg-green-800 text-gray-900 dark:text-yellow-300 rounded-md"
           name="swellUnits"
           id="swellUnits"
           onChange={(event) => setSwellUnits(event.currentTarget.value)}
@@ -30,11 +29,10 @@ function Settings() {
         </select>
       </div>
       <div>
-        <label className="block mb-1" htmlFor="windUnits">
+        <label className="mr-2" htmlFor="windUnits">
           🌬 Wind Units:
         </label>
         <select
-          className="relative w-full py-1 pl-2 bg-blue-50 dark:bg-green-800 text-gray-900 dark:text-yellow-300 rounded-md"
           name="windUnits"
           id="windUnits"
           onChange={(event) => setWindUnits(event.currentTarget.value)}
@@ -45,11 +43,10 @@ function Settings() {
         </select>
       </div>
       <div>
-        <label className="block mb-1" htmlFor="darkMode">
+        <label className="mr-2" htmlFor="darkMode">
           🌗 Dark Mode:
         </label>
         <select
-          className="relative w-full py-1 pl-2 bg-blue-50 dark:bg-green-800 text-gray-900 dark:text-yellow-300 rounded-md"
           name="darkMode"
           id="darkMode"
           onChange={(event) => setDarkMode(event.currentTarget.value)}
