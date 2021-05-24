@@ -77,8 +77,8 @@ function ForecastTable(props: ForecastTableProps) {
           if (time.wind.speed) {
             windSpeed =
               windUnits === "mph"
-                ? time.wind.speed
-                : (time.wind.speed / 2.237).toFixed(1)
+                ? (time.wind.speed * 2.237).toFixed(1)
+                : time.wind.speed
             windUnit = windUnits === "mph" ? "mph" : "m/s"
           } else {
             windSpeed = "n/a"
