@@ -1,4 +1,3 @@
-import classNames from "classnames"
 import { format, parseISO } from "date-fns"
 import { useContext } from "react"
 
@@ -88,11 +87,7 @@ function ForecastTable(props: ForecastTableProps) {
           return (
             <tr
               key={time.time}
-              className={classNames("dark:text-gray-300 h-24", [
-                time.swells.primary
-                  ? "bg-blue-50 dark:bg-gray-700"
-                  : "bg-white dark:bg-gray-800",
-              ])}
+              className="dark:text-gray-300 h-24 bg-white dark:bg-gray-700 even:bg-blue-50 dark:even:bg-gray-800"
             >
               <td className="px-3">{format(parseISO(time.time), "HH:mm")}</td>
               <td className="px-3">
