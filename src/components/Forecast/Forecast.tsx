@@ -1,5 +1,5 @@
 import axios from "axios"
-import { format, fromUnixTime, isEqual, parseISO } from "date-fns"
+import { format, formatISO, fromUnixTime, isEqual, parseISO } from "date-fns"
 import React, { useEffect, useState } from "react"
 
 import { RootObject } from "../../types/msw"
@@ -36,37 +36,13 @@ function Forecast() {
   }
 
   // Group YR forecast time steps by day
-  const forecastDays: { [k: string]: ForecastTableRow[] } = {}
+  const forecastRowsByDay: { [k: string]: ForecastTableRow[] } = {}
 
   yrData?.properties.timeseries.forEach((timeSeriesUnit) => {
     const day = format(parseISO(timeSeriesUnit.time), "yyyy-MM-dd")
 
-    // look for matching time in MSW forecast
-    const swellTime = mswData.find((datum) => {
-      const mswDate = fromUnixTime(datum.timestamp)
-      const yrDate = parseISO(timeSeriesUnit.time)
-
-      return isEqual(mswDate, yrDate)
-    })
-
     const row = {
-      swells: {
-        primary: swellTime && {
-          direction: swellTime.swell.components.primary.direction,
-          height: swellTime.swell.components.primary.height,
-          period: swellTime.swell.components.primary.period,
-        },
-        secondary: swellTime?.swell.components.secondary && {
-          direction: swellTime.swell.components.secondary.direction,
-          height: swellTime.swell.components.secondary.height,
-          period: swellTime.swell.components.secondary.period,
-        },
-        tertiary: swellTime?.swell.components.tertiary && {
-          direction: swellTime.swell.components.tertiary.direction,
-          height: swellTime.swell.components.tertiary.height,
-          period: swellTime.swell.components.tertiary.period,
-        },
-      },
+      swells: {},
       time: timeSeriesUnit.time,
       wind: {
         direction: timeSeriesUnit.data.instant.details?.wind_from_direction,
@@ -74,10 +50,66 @@ function Forecast() {
       },
     }
 
-    if (forecastDays[day]) {
-      forecastDays[day].push(row)
+    if (forecastRowsByDay[day]) {
+      forecastRowsByDay[day].push(row)
     } else {
-      forecastDays[day] = [row]
+      forecastRowsByDay[day] = [row]
+    }
+  })
+
+  /*
+	Merge MSW data with YR data
+	*/
+  mswData.forEach((datum) => {
+    const date = fromUnixTime(datum.timestamp)
+    const day = format(date, "yyyy-MM-dd")
+    const forecastRowsForDay = forecastRowsByDay[day]
+    const swells = {
+      primary: {
+        direction: datum.swell.components.primary.direction,
+        height: datum.swell.components.primary.height,
+        period: datum.swell.components.primary.period,
+      },
+      secondary: datum.swell.components.secondary && {
+        direction: datum.swell.components.secondary.direction,
+        height: datum.swell.components.secondary.height,
+        period: datum.swell.components.secondary.period,
+      },
+      tertiary: datum.swell.components.tertiary && {
+        direction: datum.swell.components.tertiary.direction,
+        height: datum.swell.components.tertiary.height,
+        period: datum.swell.components.tertiary.period,
+      },
+    }
+
+    /*
+		Iterate through existing forecast rows that we got from the YR data and
+		merge the swell data into any row with a matching time or insert the
+		swell data in the correct order if not
+		*/
+    for (let i = 0; i < forecastRowsForDay.length; i++) {
+      const row = forecastRowsForDay[i]
+      const rowDate = parseISO(row.time)
+
+      if (isEqual(date, rowDate)) {
+        row.swells = swells
+
+        break
+      } else if (date < rowDate) {
+        forecastRowsForDay.splice(i, 0, {
+          swells,
+          time: formatISO(date),
+          wind: {},
+        })
+
+        break
+      } else if (i === forecastRowsForDay.length - 1) {
+        forecastRowsForDay.push({
+          swells,
+          time: formatISO(date),
+          wind: {},
+        })
+      }
     }
   })
 
@@ -89,10 +121,10 @@ function Forecast() {
     </div>
   ) : (
     <>
-      {Object.keys(forecastDays).map((forecastDayKey) => (
+      {Object.keys(forecastRowsByDay).map((forecastDayKey) => (
         <ForecastTable
           key={forecastDayKey}
-          times={forecastDays[forecastDayKey]}
+          times={forecastRowsByDay[forecastDayKey]}
         />
       ))}
     </>
