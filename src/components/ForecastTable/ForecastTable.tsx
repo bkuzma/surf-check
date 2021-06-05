@@ -80,7 +80,7 @@ function ForecastTable(props: ForecastTableProps) {
                 : time.wind.speed
             windUnit = windUnits === "mph" ? "mph" : "m/s"
           } else {
-            windSpeed = "n/a"
+            windSpeed = ""
             windUnit = ""
           }
 
