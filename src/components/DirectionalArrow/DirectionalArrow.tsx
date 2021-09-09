@@ -1,6 +1,6 @@
 import React from "react"
 
-import { ArrowDown } from "../../icons"
+import { ReactComponent as ArrowDown } from "../../assets/svg/arrow-down.svg"
 
 interface ArrowProps {
   degrees: number
