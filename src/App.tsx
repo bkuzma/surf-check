@@ -3,6 +3,8 @@ import "./App.css"
 import classNames from "classnames"
 import React, { useState } from "react"
 
+import { ReactComponent as IconCog } from "./assets/svg/cog.svg"
+import { ReactComponent as IconX } from "./assets/svg/x.svg"
 import Forecast from "./components/Forecast/Forecast"
 import Settings from "./components/Settings/Settings"
 import SettingsContext from "./contexts/settings-context"
@@ -23,6 +25,15 @@ function App() {
   const [windUnits, setWindUnits] = useState(
     localStorage.getItem(LOCAL_STORAGE_KEYS.WIND_UNITS) || "mph"
   )
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false)
+
+  const onClickSettings = () => {
+    setIsSettingsVisible(!isSettingsVisible)
+  }
+
+  const onSettingsRequestClose = () => {
+    setIsSettingsVisible(false)
+  }
 
   return (
     <SettingsContext.Provider
@@ -52,14 +63,27 @@ function App() {
               window.matchMedia("(prefers-color-scheme: dark)").matches),
         })}
       >
-        <div className="pb-5 container mx-auto">
+        <div className="pb-24 container mx-auto relative">
           <header className="py-5 bg-green-500 dark:bg-green-900">
-            <h1 className="text-xl text-center mb-4 font-medium text-gray-900 dark:text-yellow-300 uppercase tracking-wider">
+            <h1 className="text-xl text-center font-medium text-gray-900 dark:text-yellow-300 uppercase tracking-wider">
               🚜 Jæren Surf Check 🏄
             </h1>
-            <Settings />
           </header>
+          <div
+            className={classNames("fixed z-20 left-0 h-full top-0 shadow", {
+              hidden: !isSettingsVisible,
+            })}
+          >
+            <Settings onRequestClose={onSettingsRequestClose} />
+          </div>
           <Forecast />
+          <button
+            onClick={onClickSettings}
+            className="fixed z-20 bottom-4 right-4 rounded-full w-14 h-14 bg-white dark:bg-gray-300 shadow-md flex justify-center items-center dark:text-gray-800"
+            title="Settings"
+          >
+            {isSettingsVisible ? <IconX /> : <IconCog />}
+          </button>
         </div>
       </div>
     </SettingsContext.Provider>
