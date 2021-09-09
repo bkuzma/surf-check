@@ -14,6 +14,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
+_Note:_
+We actually use Vercel's dev server locally so that we can run serverless functions. There's a quirk where after running `yarn start`, a tab will be opened with a url like `http://localhost:57622/`; simply close that tab and open [http://localhost:3000](http://localhost:3000) instead.
+
 ### `yarn test`
 
 Launches the test runner in the interactive watch mode.\
