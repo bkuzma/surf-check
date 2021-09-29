@@ -30,6 +30,17 @@ export interface ForecastTableProps {
 function ForecastTable(props: ForecastTableProps) {
   const { swellUnits, windUnits } = useContext(SettingsContext)
 
+  const getArrowSizeFromWindSpeed = (windSpeedInMph: number): number => {
+    const MIN_ARROW_SIZE = 10
+    const MAX_ARROW_SIZE = 20
+    const MAX_WIND_SPEED = 20
+
+    const scale = Math.min(1, windSpeedInMph / MAX_WIND_SPEED)
+    const arrowSize = (MAX_ARROW_SIZE - MIN_ARROW_SIZE) * scale + MIN_ARROW_SIZE
+
+    return arrowSize
+  }
+
   const renderSwell = (swellComponent: Swell) => {
     const swellHeight =
       swellUnits === "feet"
@@ -38,7 +49,7 @@ function ForecastTable(props: ForecastTableProps) {
     const swellUnit = swellUnits === "feet" ? "ft" : "m"
 
     return (
-      <div className="flex space-x-2 text-xs">
+      <div className="flex items-center space-x-2 text-xs">
         <DirectionalArrow degrees={swellComponent.direction + 180} />
         <span>
           {swellHeight}
@@ -72,12 +83,13 @@ function ForecastTable(props: ForecastTableProps) {
         {props.times.map((time) => {
           let windSpeed
           let windUnit
+          let arrowSize
 
           if (time.wind.speed) {
-            windSpeed =
-              windUnits === "mph"
-                ? (time.wind.speed * 2.237).toFixed(1)
-                : time.wind.speed
+            const windInMph = (time.wind.speed * 2.237).toFixed(1)
+
+            arrowSize = getArrowSizeFromWindSpeed(Number(windInMph))
+            windSpeed = windUnits === "mph" ? windInMph : time.wind.speed
             windUnit = windUnits === "mph" ? "mph" : "m/s"
           } else {
             windSpeed = ""
@@ -91,9 +103,15 @@ function ForecastTable(props: ForecastTableProps) {
             >
               <td className="px-3">{format(parseISO(time.time), "HH:mm")}</td>
               <td className="px-3">
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 items-center">
                   {time.wind.direction && (
-                    <DirectionalArrow degrees={time.wind.direction} />
+                    <div className="w-5">
+                      <DirectionalArrow
+                        degrees={time.wind.direction}
+                        height={arrowSize}
+                        width={arrowSize}
+                      />
+                    </div>
                   )}
                   <span>
                     {windSpeed} {windUnit}
