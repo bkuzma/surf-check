@@ -64,10 +64,14 @@ function App() {
         })}
       >
         <div className="pb-24 container mx-auto relative">
-          <header className="py-5 bg-green-500 dark:bg-green-900">
+          <header className="p-5 bg-green-500 dark:bg-green-900">
             <h1 className="text-xl text-center font-medium text-gray-900 dark:text-yellow-300 uppercase tracking-wider">
               🚜 Jæren Surf Check 🏄
             </h1>
+            <p className="mt-2 text-sm text-center">
+              Bore Beach surf forecast with swell data from Magic Seaweed and
+              wind data from YR.
+            </p>
           </header>
           <div
             className={classNames("fixed z-20 left-0 h-full top-0 shadow", {
