@@ -13,24 +13,19 @@
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "date-fns": "^2.19.0",
+    "next": "^11.1.2",
     "node-fetch": "^2.6.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "vercel dev",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject",
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest"
   },
   "browserslist": {
     "production": [
@@ -45,19 +40,19 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^6.1.1",
-    "@tailwindcss/postcss7-compat": "^2.0.4",
+    "@svgr/webpack": "^5.5.0",
     "@vercel/node": "^1.9.1",
-    "autoprefixer": "^9",
+    "autoprefixer": "^10.3.6",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "postcss": "^7",
+    "postcss": "^8.3.8",
     "prettier": "^2.2.1",
     "stylelint": "^13.12.0",
     "stylelint-config-recommended": "^4.0.0",
     "stylelint-config-standard": "^21.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "vercel": "22"
+    "tailwindcss": "^2.2.16"
   }
 }

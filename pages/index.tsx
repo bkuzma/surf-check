@@ -1,13 +1,12 @@
-import "./App.css"
-
 import classNames from "classnames"
-import React, { useState } from "react"
+import Head from "next/head"
+import React, { useEffect, useState } from "react"
 
-import { ReactComponent as IconCog } from "./assets/svg/cog.svg"
-import { ReactComponent as IconX } from "./assets/svg/x.svg"
-import Forecast from "./components/Forecast/Forecast"
-import Settings from "./components/Settings/Settings"
-import SettingsContext from "./contexts/settings-context"
+import IconCog from "../src/assets/svg/cog.svg"
+import IconX from "../src/assets/svg/x.svg"
+import Forecast from "../src/components/Forecast/Forecast"
+import Settings from "../src/components/Settings/Settings"
+import SettingsContext from "../src/contexts/settings-context"
 
 const LOCAL_STORAGE_KEYS = {
   DARK_MODE: "DARK_MODE",
@@ -15,17 +14,26 @@ const LOCAL_STORAGE_KEYS = {
   WIND_UNITS: "WIND_UNITS",
 }
 
-function App() {
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem(LOCAL_STORAGE_KEYS.DARK_MODE) || "system"
-  )
-  const [swellUnits, setSwellUnits] = useState(
-    localStorage.getItem(LOCAL_STORAGE_KEYS.SWELL_UNITS) || "feet"
-  )
-  const [windUnits, setWindUnits] = useState(
-    localStorage.getItem(LOCAL_STORAGE_KEYS.WIND_UNITS) || "mph"
-  )
+export default function Home() {
+  const [darkModePreference, setDarkModePreference] = useState("system")
+  const [swellUnits, setSwellUnits] = useState("feet")
+  const [windUnits, setWindUnits] = useState("mph")
   const [isSettingsVisible, setIsSettingsVisible] = useState(false)
+
+  /*
+	We put references to localStorage in an effect because Web APIs are not available
+	when Next.js prerenders pages:
+	https://nextjs.org/docs/migrating/from-create-react-app#safely-accessing-web-apis
+	*/
+  useEffect(() => {
+    setDarkModePreference(
+      localStorage.getItem(LOCAL_STORAGE_KEYS.DARK_MODE) || "system"
+    )
+    setSwellUnits(
+      localStorage.getItem(LOCAL_STORAGE_KEYS.SWELL_UNITS) || "feet"
+    )
+    setWindUnits(localStorage.getItem(LOCAL_STORAGE_KEYS.WIND_UNITS) || "mph")
+  }, [])
 
   const onClickSettings = () => {
     setIsSettingsVisible(!isSettingsVisible)
@@ -35,12 +43,22 @@ function App() {
     setIsSettingsVisible(false)
   }
 
+  let doesSystemUseDarkMode = false
+  if (typeof window !== "undefined") {
+    doesSystemUseDarkMode = window.matchMedia("(prefers-color-scheme: dark)")
+      .matches
+  }
+
+  const shouldUseDarkMode =
+    darkModePreference === "on" ||
+    (darkModePreference === "system" && doesSystemUseDarkMode)
+
   return (
     <SettingsContext.Provider
       value={{
-        darkMode,
+        darkModePreference,
         setDarkMode: (setting) => {
-          setDarkMode(setting)
+          setDarkModePreference(setting)
           localStorage.setItem(LOCAL_STORAGE_KEYS.DARK_MODE, setting)
         },
         setSwellUnits: (value) => {
@@ -55,12 +73,13 @@ function App() {
         windUnits,
       }}
     >
+      <Head>
+        <title>Jæren Surf Check - Forecast</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div
         className={classNames({
-          dark:
-            darkMode === "on" ||
-            (darkMode === "system" &&
-              window.matchMedia("(prefers-color-scheme: dark)").matches),
+          dark: shouldUseDarkMode,
         })}
       >
         <div className="pb-24 container mx-auto relative">
@@ -86,12 +105,14 @@ function App() {
             className="fixed z-20 bottom-4 right-4 rounded-full w-14 h-14 bg-white dark:bg-gray-300 shadow-md flex justify-center items-center dark:text-gray-800"
             title="Settings"
           >
-            {isSettingsVisible ? <IconX /> : <IconCog />}
+            {isSettingsVisible ? (
+              <IconX height={24} width={24} />
+            ) : (
+              <IconCog height={24} width={24} />
+            )}
           </button>
         </div>
       </div>
     </SettingsContext.Provider>
   )
 }
-
-export default App

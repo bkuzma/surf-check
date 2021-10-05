@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 
-import { ReactComponent as IconX } from "../../assets/svg/x.svg"
+import IconX from "../../assets/svg/x.svg"
 import SettingsContext from "../../contexts/settings-context"
 
 interface SettingsProps {
@@ -9,7 +9,7 @@ interface SettingsProps {
 
 function Settings(props: SettingsProps) {
   const {
-    darkMode,
+    darkModePreference,
     setDarkMode,
     setSwellUnits,
     setWindUnits,
@@ -23,7 +23,7 @@ function Settings(props: SettingsProps) {
         className="absolute top-2 right-2 p-4 dark:text-yellow-300"
         title="Close"
       >
-        <IconX onClick={props.onRequestClose} />
+        <IconX height={24} width={24} onClick={props.onRequestClose} />
       </button>
       <div className="space-y-3">
         <h4 className="text-base">Settings</h4>
@@ -63,7 +63,7 @@ function Settings(props: SettingsProps) {
             name="darkMode"
             id="darkMode"
             onChange={(event) => setDarkMode(event.currentTarget.value)}
-            value={darkMode}
+            value={darkModePreference}
           >
             <option value="on">on</option>
             <option value="off">off</option>

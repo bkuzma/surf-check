@@ -1,7 +1,7 @@
 import React from "react"
 
 interface IContextProps {
-  darkMode: string
+  darkModePreference: string
   swellUnits: string
   windUnits: string
   setDarkMode: (setting: string) => void
