@@ -1,3 +1,4 @@
+import { useUser } from "@auth0/nextjs-auth0"
 import React, { useContext } from "react"
 
 import IconX from "../../assets/svg/x.svg"
@@ -16,6 +17,25 @@ function Settings(props: SettingsProps) {
     swellUnits,
     windUnits,
   } = useContext(SettingsContext)
+
+  const { user, error, isLoading } = useUser()
+
+  const renderLogin = () => {
+    if (isLoading) return <div>Loading...</div>
+    if (error) return <div>{error.message}</div>
+
+    return user ? (
+      <>
+        <p>Logged in as:</p>
+        <p>{user.email}</p>
+        <div className="mt-4">
+          <a href="/api/auth/logout">Log out</a>
+        </div>
+      </>
+    ) : (
+      <a href="/api/auth/login">Log in</a>
+    )
+  }
 
   return (
     <div className="bg-white dark:bg-gray-800 h-full p-6 text-xs text-gray-900 dark:text-yellow-300 font-medium uppercase tracking-wider relative">
@@ -71,6 +91,7 @@ function Settings(props: SettingsProps) {
           </select>
         </div>
       </div>
+      <div className="mt-6">{renderLogin()}</div>
     </div>
   )
 }
