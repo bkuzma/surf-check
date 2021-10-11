@@ -27,19 +27,19 @@ export interface ForecastTableProps {
   times: ForecastTableRow[]
 }
 
+const getArrowSizeFromWindSpeed = (windSpeedInMph: number): number => {
+  const MIN_ARROW_SIZE = 10
+  const MAX_ARROW_SIZE = 20
+  const MAX_WIND_SPEED = 20
+
+  const scale = Math.min(1, windSpeedInMph / MAX_WIND_SPEED)
+  const arrowSize = (MAX_ARROW_SIZE - MIN_ARROW_SIZE) * scale + MIN_ARROW_SIZE
+
+  return arrowSize
+}
+
 function ForecastTable(props: ForecastTableProps) {
   const { swellUnits, windUnits } = useContext(SettingsContext)
-
-  const getArrowSizeFromWindSpeed = (windSpeedInMph: number): number => {
-    const MIN_ARROW_SIZE = 10
-    const MAX_ARROW_SIZE = 20
-    const MAX_WIND_SPEED = 20
-
-    const scale = Math.min(1, windSpeedInMph / MAX_WIND_SPEED)
-    const arrowSize = (MAX_ARROW_SIZE - MIN_ARROW_SIZE) * scale + MIN_ARROW_SIZE
-
-    return arrowSize
-  }
 
   const renderSwell = (swellComponent: Swell) => {
     const swellHeight =
