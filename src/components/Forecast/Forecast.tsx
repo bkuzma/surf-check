@@ -11,8 +11,8 @@ const LOCATION_BORE = {
   long: 5.5384,
 }
 
-const yrUrl = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat=${LOCATION_BORE.lat}&lon=${LOCATION_BORE.long}`
-const mswUrl = "/api/magic-seaweed-forecast"
+const YR_URL = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat=${LOCATION_BORE.lat}&lon=${LOCATION_BORE.long}`
+const MSW_URL = "/api/magic-seaweed-forecast"
 
 function Forecast() {
   const [yrData, setYrData] = useState<METJSONForecast | undefined>()
@@ -27,8 +27,8 @@ function Forecast() {
     let yrResponse
     let mswResponse
 
-    yrResponse = (await axios.get(yrUrl)).data
-    mswResponse = (await axios.get(mswUrl)).data
+    yrResponse = (await axios.get(YR_URL)).data
+    mswResponse = (await axios.get(MSW_URL)).data
 
     setYrData(yrResponse)
     setMswData(mswResponse)
