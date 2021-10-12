@@ -1,22 +1,12 @@
 import { format, parseISO } from "date-fns"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 
 import SettingsContext from "../../contexts/settings-context"
 import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
-
-interface Swell {
-  direction: number
-  height: number
-  period: number
-}
-
+import SwellGroup, { SwellGroupProps } from "../SwellGroup/SwellGroup"
 export interface ForecastTableRow {
   time: string
-  swells: {
-    primary?: Swell
-    secondary?: Swell
-    tertiary?: Swell
-  }
+  swells: SwellGroupProps
   wind: {
     direction?: number
     speed?: number
@@ -39,7 +29,7 @@ const getArrowSizeFromWindSpeed = (windSpeedInMph: number): number => {
 }
 
 function ForecastTable(props: ForecastTableProps) {
-  const { swellUnits, windUnits } = useContext(SettingsContext)
+  const { windUnits } = useContext(SettingsContext)
 
   const renderSwell = (swellComponent: Swell) => {
     const swellHeight =
@@ -48,16 +38,6 @@ function ForecastTable(props: ForecastTableProps) {
         : (swellComponent.height / 3.281).toFixed(1)
     const swellUnit = swellUnits === "feet" ? "ft" : "m"
 
-    return (
-      <div className="flex items-center space-x-2 text-xs">
-        <DirectionalArrow degrees={swellComponent.direction + 180} />
-        <span>
-          {swellHeight}
-          {swellUnit} @ {swellComponent.period}s
-        </span>
-      </div>
-    )
-  }
 
   const tableHeaders = [
     format(parseISO(props.times[0].time), "EE M-dd"),
@@ -118,10 +98,8 @@ function ForecastTable(props: ForecastTableProps) {
                   </span>
                 </div>
               </td>
-              <td className="px-3 space-y-1">
-                {time.swells.primary && renderSwell(time.swells.primary)}
-                {time.swells.secondary && renderSwell(time.swells.secondary)}
-                {time.swells.tertiary && renderSwell(time.swells.tertiary)}
+              <td className="px-3">
+                <SwellGroup {...time.swells} />
               </td>
             </tr>
           )
