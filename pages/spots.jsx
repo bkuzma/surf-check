@@ -14,11 +14,13 @@ function SpotList() {
   if (!data) return <div>loading...</div>
 
   return (
-    <ul>
+    <ul className="space-y-2">
       {data.map((spot) => (
         <li key={spot.name}>
           <Link href={`/spots/${spot._id}`}>
-            <a className="font-medium underline text-gray-900">{spot.name}</a>
+            <a className="text-sm underline text-gray-900 uppercase tracking-wider">
+              {spot.name}
+            </a>
           </Link>
         </li>
       ))}
@@ -37,7 +39,9 @@ export default function Spots() {
         <title>Jæren Surf Check - Spots</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h2 className="text-lg text-gray-900">Spots</h2>
+      <h2 className="font-gray-900 text-sm font-medium uppercase tracking-wider">
+        Spots
+      </h2>
       {isLoggedIn && (
         <div className="mt-4">
           <SpotAdder />

@@ -42,18 +42,14 @@ export default function SpotAdder() {
   return (
     <form className="flex items-center space-x-2" onSubmit={onSubmit}>
       <input
-        className="border rounded-md p-2"
+        className="input-text"
         disabled={isSubmitting}
         onChange={onChange}
         placeholder="Spot name"
         type="text"
         value={inputValue}
       />
-      <button
-        className="rounded-md bg-gray-200 p-2"
-        disabled={isSubmitting}
-        type="submit"
-      >
+      <button className="btn-green" disabled={isSubmitting} type="submit">
         Add
       </button>
     </form>
