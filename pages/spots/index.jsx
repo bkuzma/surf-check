@@ -3,7 +3,7 @@ import Head from "next/head"
 import Link from "next/link"
 import useSWR from "swr"
 
-import SpotAdder from "../src/components/SpotAdder/SpotAdder"
+import SpotAdder from "../../src/components/SpotAdder/SpotAdder"
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 

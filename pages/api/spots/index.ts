@@ -1,7 +1,7 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0"
 import type { NextApiHandler } from "next"
 
-import { createSpot, listSpots } from "../../lib/fauna"
+import { createSpot, listSpots } from "../../../lib/fauna"
 
 const handler: NextApiHandler = async (request, response) => {
   const user = getSession(request, response)?.user
