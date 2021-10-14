@@ -1,5 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0"
 import Head from "next/head"
+import Link from "next/link"
 import useSWR from "swr"
 
 import SpotAdder from "../src/components/SpotAdder/SpotAdder"
@@ -15,7 +16,11 @@ function SpotList() {
   return (
     <ul>
       {data.map((spot) => (
-        <li key={spot.name}>{spot.name}</li>
+        <li key={spot.name}>
+          <Link href={`/spots/${spot._id}`}>
+            <a className="font-medium underline text-gray-900">{spot.name}</a>
+          </Link>
+        </li>
       ))}
     </ul>
   )
@@ -32,7 +37,7 @@ export default function Spots() {
         <title>Jæren Surf Check - Spots</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h2 className="text-lg">Spots</h2>
+      <h2 className="text-lg text-gray-900">Spots</h2>
       {isLoggedIn && (
         <div className="mt-4">
           <SpotAdder />
