@@ -3,6 +3,7 @@ import { useState } from "react"
 import { SubmitHandler, useForm, useWatch } from "react-hook-form"
 import useSWR, { mutate } from "swr"
 
+import fetcher from "../../../lib/fetcher"
 import Dialog from "../Dialog/Dialog"
 import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
 import type { ForecastTableRow } from "../ForecastTable/ForecastTable"
@@ -42,8 +43,6 @@ const putSurfCheck = (payload: PutSurfCheckInput) =>
   }).then((response) =>
     response.ok ? response.json() : Promise.reject(response)
   )
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
   const [formState, setFormState] = useState("initial")

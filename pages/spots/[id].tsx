@@ -3,12 +3,11 @@ import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import useSWR from "swr"
 
+import fetcher from "../../lib/fetcher"
 import SwellGroup, {
   SwellGroupProps,
 } from "../../src/components/SwellGroup/SwellGroup"
 import Wind from "../../src/components/Wind/Wind"
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 interface Spot {
   name: string

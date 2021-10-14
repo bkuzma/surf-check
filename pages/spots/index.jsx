@@ -3,9 +3,8 @@ import Head from "next/head"
 import Link from "next/link"
 import useSWR from "swr"
 
+import fetcher from "../../lib/fetcher"
 import SpotAdder from "../../src/components/SpotAdder/SpotAdder"
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 function SpotList() {
   const { data, error } = useSWR("/api/spots", fetcher)
