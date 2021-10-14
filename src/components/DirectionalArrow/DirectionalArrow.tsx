@@ -11,6 +11,7 @@ interface ArrowProps {
 const Arrow = ({ degrees, height = 20, width = 20 }: ArrowProps) => {
   return (
     <ArrowDown
+      className="transition-transform"
       style={{
         transform: `rotate(${degrees}deg)`,
       }}
