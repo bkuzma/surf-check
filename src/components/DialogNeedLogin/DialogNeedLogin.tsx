@@ -16,12 +16,14 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
       </Dialog.Title>
       <p className="mt-6">To add surf checks, you need to be logged in.</p>
       <div className="mt-6 sm:flex sm:flex-row-reverse">
+        {/* eslint-disable @next/next/no-html-link-for-pages */}
         <a
           href="/api/auth/login"
           className="btn-green w-full sm:ml-3 sm:w-auto"
         >
           Log in
         </a>
+        {/* eslint-enable @next/next/no-html-link-for-pages */}
         <button
           type="button"
           className="btn-outline mt-3 w-full sm:mt-0 sm:ml-3 sm:w-auto"

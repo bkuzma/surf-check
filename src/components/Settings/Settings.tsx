@@ -24,6 +24,7 @@ function Settings(props: SettingsProps) {
     if (isLoading) return <div>Loading...</div>
     if (error) return <div>{error.message}</div>
 
+    /* eslint-disable @next/next/no-html-link-for-pages */
     return user ? (
       <>
         <p>Logged in as:</p>
@@ -35,6 +36,7 @@ function Settings(props: SettingsProps) {
     ) : (
       <a href="/api/auth/login">Log in</a>
     )
+    /* eslint-enable @next/next/no-html-link-for-pages */
   }
 
   return (

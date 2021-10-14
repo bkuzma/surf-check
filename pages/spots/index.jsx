@@ -52,10 +52,12 @@ export default function Spots() {
           <SpotList />
         ) : (
           <div>
+            {/* eslint-disable @next/next/no-html-link-for-pages */}
             <a className="underline" href="/api/auth/login">
               Log in
             </a>{" "}
             to see your spots.
+            {/* eslint-enable @next/next/no-html-link-for-pages */}
           </div>
         )}
       </div>
