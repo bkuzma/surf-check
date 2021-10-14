@@ -1,10 +1,8 @@
+import type { SwellMeasurement } from "../../types"
 import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
 
-export interface SwellProps {
-  direction: number
-  height: number
-  period: number
-  units: "feet" | "meters"
+export interface SwellProps extends SwellMeasurement {
+  units: string
 }
 
 export default function Swell(props: SwellProps) {

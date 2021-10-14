@@ -4,10 +4,12 @@ import { useRouter } from "next/router"
 import useSWR from "swr"
 
 import fetcher from "../../lib/fetcher"
-import SwellGroup, {
-  SwellGroupProps,
-} from "../../src/components/SwellGroup/SwellGroup"
+import SwellGroup from "../../src/components/SwellGroup/SwellGroup"
 import Wind from "../../src/components/Wind/Wind"
+import type {
+  SwellGroup as SwellGroupType,
+  WindMeasurement,
+} from "../../src/types"
 
 interface Spot {
   name: string
@@ -21,13 +23,8 @@ interface SurfChecks {
 interface SurfCheck {
   _ts: number
   didSurf: boolean
-  swellGroup: SwellGroupProps
-  wind: Wind
-}
-
-interface Wind {
-  direction: number
-  speed: number
+  swellGroup: SwellGroupType
+  wind: WindMeasurement
 }
 
 export default function Spot() {

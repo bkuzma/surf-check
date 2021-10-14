@@ -1,13 +1,10 @@
 import { useContext } from "react"
 
 import SettingsContext from "../../contexts/settings-context"
-import Swell, { SwellProps } from "../Swell/Swell"
+import { SwellGroup as ISwellGroup } from "../../types"
+import Swell from "../Swell/Swell"
 
-export interface SwellGroupProps {
-  primary?: SwellProps
-  secondary?: SwellProps
-  tertiary?: SwellProps
-}
+export interface SwellGroupProps extends ISwellGroup {}
 
 export default function SwellGroup(props: SwellGroupProps) {
   const { swellUnits } = useContext(SettingsContext)

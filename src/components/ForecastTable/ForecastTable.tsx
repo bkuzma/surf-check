@@ -3,14 +3,15 @@ import { format, parseISO } from "date-fns"
 import { useState } from "react"
 
 import ClipboardList from "../../assets/svg/clipboard-list.svg"
+import type { SwellGroup as SwellGroupType } from "../../types"
 import DialogAddSurfCheck from "../DialogAddSurfCheck/DialogAddSurfCheck"
 import DialogNeedLogin from "../DialogNeedLogin/DialogNeedLogin"
-import SwellGroup, { SwellGroupProps } from "../SwellGroup/SwellGroup"
+import SwellGroup from "../SwellGroup/SwellGroup"
 import Wind from "../Wind/Wind"
 
 export interface ForecastTableRow {
   time: string
-  swells: SwellGroupProps
+  swells: SwellGroupType
   wind: {
     direction?: number
     speed?: number
