@@ -1,7 +1,9 @@
 import axios from "axios"
 import { format, formatISO, fromUnixTime, isEqual, parseISO } from "date-fns"
 import React, { useEffect, useState } from "react"
+import useSWR from "swr"
 
+import fetcher from "../../../lib/fetcher"
 import { RootObject } from "../../types/msw"
 import { METJSONForecast } from "../../types/yr"
 import ForecastTable, { ForecastTableRow } from "../ForecastTable/ForecastTable"
@@ -16,24 +18,32 @@ const YR_URL = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json
 const MSW_URL = "/api/magic-seaweed-forecast"
 
 function Forecast() {
-  const [yrData, setYrData] = useState<METJSONForecast | undefined>()
-  const [mswData, setMswData] = useState<RootObject[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const { data: mswData, error: mswError } = useSWR<RootObject[]>(
+    MSW_URL,
+    fetcher
+  )
+  const { data: yrData, error: yrError } = useSWR<METJSONForecast>(
+    YR_URL,
+    fetcher
+  )
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  const hasError = mswError || yrError
+  const isLoading = (!mswData || !yrData) && !hasError
 
-  const fetchData = async () => {
-    let yrResponse
-    let mswResponse
+  if (isLoading) {
+    return (
+      <div className="p-4 flex justify-center">
+        <LoadingIndicator />
+      </div>
+    )
+  }
 
-    yrResponse = (await axios.get(YR_URL)).data
-    mswResponse = (await axios.get(MSW_URL)).data
-
-    setYrData(yrResponse)
-    setMswData(mswResponse)
-    setIsLoading(false)
+  if (hasError) {
+    return (
+      <p className="p-4 text-sm text-center">
+        An error occurred, please try again later 😔
+      </p>
+    )
   }
 
   // Group YR forecast time steps by day
@@ -61,7 +71,7 @@ function Forecast() {
   /*
 	Merge MSW data with YR data
 	*/
-  mswData.forEach((datum) => {
+  mswData?.forEach((datum) => {
     const date = fromUnixTime(datum.timestamp)
     const day = format(date, "yyyy-MM-dd")
     const forecastRowsForDay = forecastRowsByDay[day]
@@ -114,11 +124,7 @@ function Forecast() {
     }
   })
 
-  return isLoading ? (
-    <div className="p-4 flex justify-center">
-      <LoadingIndicator />
-    </div>
-  ) : (
+  return (
     <>
       {Object.keys(forecastRowsByDay).map((forecastDayKey) => (
         <ForecastTable
