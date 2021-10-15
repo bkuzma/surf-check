@@ -46,7 +46,7 @@ export default function Spots() {
         <title>Jæren Surf Check - Spots</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h2 className="text-sm font-medium uppercase tracking-wider">Spots</h2>
+      <h2 className="text-base font-medium uppercase tracking-wider">Spots</h2>
       {isLoggedIn && (
         <div className="mt-4">
           <SpotAdder />
