@@ -40,7 +40,7 @@ export default function Spot() {
     )
 
   return (
-    <div className="p-4 text-gray-900">
+    <div className="p-4">
       <h2 className="text-sm font-medium uppercase tracking-wider">
         {spot?.name} Surf Checks:
       </h2>

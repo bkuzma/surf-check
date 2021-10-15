@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* from: https://gist.github.com/dmurawsky/d45f068097d181c733a53687edce1919 */
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div {
+	height: 100%;
+}
+
 @layer components {
 	.btn {
 		@apply inline-flex justify-center rounded-md shadow-sm dark:shadow-none px-4 py-2 text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm;

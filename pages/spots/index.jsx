@@ -23,7 +23,7 @@ function SpotList() {
       {data.map((spot) => (
         <li key={spot.name}>
           <Link href={`/spots/${spot._id}`}>
-            <a className="text-sm underline text-gray-900 uppercase tracking-wider">
+            <a className="text-sm underline uppercase tracking-wider">
               {spot.name}
             </a>
           </Link>
@@ -46,9 +46,7 @@ export default function Spots() {
         <title>Jæren Surf Check - Spots</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h2 className="font-gray-900 text-sm font-medium uppercase tracking-wider">
-        Spots
-      </h2>
+      <h2 className="text-sm font-medium uppercase tracking-wider">Spots</h2>
       {isLoggedIn && (
         <div className="mt-4">
           <SpotAdder />
