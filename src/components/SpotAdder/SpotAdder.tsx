@@ -1,9 +1,13 @@
-import { useState } from "react"
+import { ChangeEventHandler, FormEventHandler, useState } from "react"
 import { mutate } from "swr"
+
+interface FormInput {
+  name: string
+}
 
 const SPOTS_PATH = "/api/spots"
 
-const putSpot = (payload) =>
+const putSpot = (payload: FormInput) =>
   fetch(SPOTS_PATH, {
     method: "POST",
     body: JSON.stringify(payload),
@@ -19,11 +23,11 @@ export default function SpotAdder() {
   const [formState, setFormState] = useState("initial")
   const isSubmitting = formState === "submitting"
 
-  const onChange = (event) => {
+  const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputValue(event.target.value)
   }
 
-  const onSubmit = async (event) => {
+  const onSubmit: FormEventHandler = async (event) => {
     event.preventDefault()
 
     setFormState("submitting")
