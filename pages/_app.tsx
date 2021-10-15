@@ -83,7 +83,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             dark: shouldUseDarkMode,
           })}
         >
-          <div className="pb-24 container mx-auto relative bg-gray-50 dark:bg-gray-800 min-h-full text-gray-900 dark:text-gray-300">
+          <div className="pb-24 relative bg-gray-50 dark:bg-gray-800 min-h-full text-gray-900 dark:text-gray-300">
             <Header />
             <div
               className={classNames(
@@ -95,7 +95,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             >
               <Settings onRequestClose={onSettingsRequestClose} />
             </div>
-            <Component {...pageProps} />
+            <div className="container mx-auto">
+              <Component {...pageProps} />
+            </div>
             <button
               onClick={onClickSettings}
               className="fixed z-20 bottom-4 right-4 rounded-full w-14 h-14 bg-white dark:bg-gray-300 shadow-md flex justify-center items-center dark:text-gray-800"

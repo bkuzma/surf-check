@@ -125,14 +125,14 @@ function Forecast() {
   })
 
   return (
-    <>
+    <div className="sm:px-4">
       {Object.keys(forecastRowsByDay).map((forecastDayKey) => (
         <ForecastTable
           key={forecastDayKey}
           times={forecastRowsByDay[forecastDayKey]}
         />
       ))}
-    </>
+    </div>
   )
 }
 
