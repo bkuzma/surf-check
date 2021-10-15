@@ -6,9 +6,10 @@ import useSWR from "swr"
 import fetcher from "../../lib/fetcher"
 import LoadingIndicator from "../../src/components/LoadingIndicator/LoadingIndicator"
 import SpotAdder from "../../src/components/SpotAdder/SpotAdder"
+import type { Spot } from "../../src/types"
 
 function SpotList() {
-  const { data, error } = useSWR("/api/spots", fetcher)
+  const { data, error } = useSWR<Spot[]>("/api/spots", fetcher)
 
   if (error) return <div>failed to load</div>
   if (!data)

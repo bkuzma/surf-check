@@ -7,30 +7,14 @@ import fetcher from "../../lib/fetcher"
 import LoadingIndicator from "../../src/components/LoadingIndicator/LoadingIndicator"
 import SwellGroup from "../../src/components/SwellGroup/SwellGroup"
 import Wind from "../../src/components/Wind/Wind"
-import type {
-  SwellGroup as SwellGroupType,
-  WindMeasurement,
-} from "../../src/types"
-
-interface Spot {
-  name: string
-  surfChecks: SurfChecks
-}
-
-interface SurfChecks {
-  data: SurfCheck[]
-}
-
-interface SurfCheck {
-  _ts: number
-  didSurf: boolean
-  swellGroup: SwellGroupType
-  wind: WindMeasurement
-}
+import type { Spot as SpotType } from "../../src/types"
 
 export default function Spot() {
   const router = useRouter()
-  const { data: spot } = useSWR<Spot>(`/api/spots/${router.query.id}`, fetcher)
+  const { data: spot } = useSWR<SpotType>(
+    `/api/spots/${router.query.id}`,
+    fetcher
+  )
 
   if (!spot)
     return (
