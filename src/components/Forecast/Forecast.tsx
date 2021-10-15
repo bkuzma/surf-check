@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react"
 import { RootObject } from "../../types/msw"
 import { METJSONForecast } from "../../types/yr"
 import ForecastTable, { ForecastTableRow } from "../ForecastTable/ForecastTable"
+import LoadingIndicator from "../LoadingIndicator/LoadingIndicator"
 
 const LOCATION_BORE = {
   lat: 58.7974,
@@ -114,10 +115,8 @@ function Forecast() {
   })
 
   return isLoading ? (
-    <div className="h-screen w-screen fixed top-0 left-0 bg-yellow-50 dark:bg-gray-800 flex items-center justify-center">
-      <span className="text-md animate-pulse font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-        🧘 Loading Forecast
-      </span>
+    <div className="p-4 flex justify-center">
+      <LoadingIndicator />
     </div>
   ) : (
     <>

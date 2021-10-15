@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import useSWR from "swr"
 
 import fetcher from "../../lib/fetcher"
+import LoadingIndicator from "../../src/components/LoadingIndicator/LoadingIndicator"
 import SwellGroup from "../../src/components/SwellGroup/SwellGroup"
 import Wind from "../../src/components/Wind/Wind"
 import type {
@@ -31,7 +32,12 @@ export default function Spot() {
   const router = useRouter()
   const { data: spot } = useSWR<Spot>(`/api/spots/${router.query.id}`, fetcher)
 
-  if (!spot) return <div className="p-4">Loading...</div>
+  if (!spot)
+    return (
+      <div className="p-4 flex justify-center">
+        <LoadingIndicator />
+      </div>
+    )
 
   return (
     <div className="p-4 text-gray-900">

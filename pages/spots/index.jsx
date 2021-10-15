@@ -4,13 +4,19 @@ import Link from "next/link"
 import useSWR from "swr"
 
 import fetcher from "../../lib/fetcher"
+import LoadingIndicator from "../../src/components/LoadingIndicator/LoadingIndicator"
 import SpotAdder from "../../src/components/SpotAdder/SpotAdder"
 
 function SpotList() {
   const { data, error } = useSWR("/api/spots", fetcher)
 
   if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
+  if (!data)
+    return (
+      <div className="flex justify-center">
+        <LoadingIndicator />
+      </div>
+    )
 
   return (
     <ul className="space-y-2">
@@ -29,6 +35,8 @@ function SpotList() {
 
 export default function Spots() {
   const { user, isLoading } = useUser()
+
+  if (isLoading) return null
 
   const isLoggedIn = !isLoading && user
 
