@@ -1,5 +1,8 @@
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react"
-import { Fragment, ReactNode } from "react"
+import classNames from "classnames"
+import { Fragment, ReactNode, useContext } from "react"
+
+import settingsContext from "../../contexts/settings-context"
 
 interface DialogProps {
   children: ReactNode
@@ -8,11 +11,18 @@ interface DialogProps {
 }
 
 export default function Dialog(props: DialogProps) {
+  const { shouldUseDarkMode } = useContext(settingsContext)
+
   return (
     <Transition.Root show={props.isOpen} as={Fragment}>
       <HeadlessDialog
         as="div"
-        className="fixed z-10 inset-0 overflow-y-auto"
+        className={classNames(
+          {
+            dark: shouldUseDarkMode,
+          },
+          "fixed z-10 inset-0 overflow-y-auto"
+        )}
         onClose={props.onClose}
       >
         <div className="flex items-center justify-center min-h-screen px-4">
@@ -36,7 +46,7 @@ export default function Dialog(props: DialogProps) {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all w-full p-6 sm:max-w-lg">
+            <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl transform transition-all w-full p-6 sm:max-w-lg">
               {props.children}
             </div>
           </Transition.Child>

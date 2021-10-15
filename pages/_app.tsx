@@ -72,6 +72,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           setWindUnits(value)
           localStorage.setItem(LOCAL_STORAGE_KEYS.WIND_UNITS, value)
         },
+        shouldUseDarkMode,
         swellUnits,
         windUnits,
       }}

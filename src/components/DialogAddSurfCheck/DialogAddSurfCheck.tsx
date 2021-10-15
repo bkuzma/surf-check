@@ -72,11 +72,11 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
 
   return (
     <Dialog isOpen={props.isOpen} onClose={props.onClose}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Dialog.Title
-          as="h3"
-          className="text-lg leading-6 font-medium text-gray-900"
-        >
+      <form
+        className="text-gray-900 dark:text-gray-300"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Dialog.Title as="h3" className="text-lg leading-6 font-medium">
           Add Surf Check
         </Dialog.Title>
         <p className="mt-2 text-xs uppercase">

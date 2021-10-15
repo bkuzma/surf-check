@@ -3,28 +3,32 @@
 @tailwind utilities;
 
 @layer components {
-  .btn-green {
-    @apply inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:text-sm;
-  }
+	.btn {
+		@apply inline-flex justify-center rounded-md shadow-sm dark:shadow-none px-4 py-2 text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm;
+	}
 
-  .btn-outline {
-    @apply inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm;
-  }
+	.btn-green {
+		@apply btn  bg-green-600 dark:bg-gray-400 border-transparent text-white dark:text-gray-900 hover:bg-green-700 dark:hover:bg-gray-500 focus:ring-green-500 dark:focus:ring-gray-900;
+	}
 
-  .input-text {
-    @apply border rounded-md p-2;
-  }
+	.btn-outline {
+		@apply btn border-gray-300 border dark:border-gray-300 bg-white dark:bg-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-500 focus:ring-green-500 dark:focus:ring-gray-500;
+	}
 
-  .label {
-    @apply text-sm font-medium text-gray-700;
-  }
+	.input-text {
+		@apply border rounded-md p-2 dark:border-gray-900 dark:bg-gray-700 dark:text-gray-300;
+	}
 
-  .select {
-    @apply py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm appearance-none;
+	.label {
+		@apply text-sm font-medium text-gray-700 dark:text-gray-300;
+	}
 
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.5rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-  }
+	.select {
+		@apply py-2 px-3 border border-gray-300 dark:border-gray-900 bg-white dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-500 dark:focus:ring-gray-500 focus:border-green-500 dark:focus:border-gray-500 sm:text-sm appearance-none;
+
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+		background-position: right 0.5rem center;
+		background-repeat: no-repeat;
+		background-size: 1.5em 1.5em;
+	}
 }
