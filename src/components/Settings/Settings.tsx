@@ -47,13 +47,14 @@ function Settings(props: SettingsProps) {
       >
         <IconX height={24} width={24} onClick={props.onRequestClose} />
       </button>
-      <div className="space-y-3">
+      <div className="space-y-4">
         <h4 className="text-base">Settings</h4>
         <div>
           <label className="mr-2" htmlFor="swellUnits">
-            🌊 Swell Units:
+            🌊 Swell Units
           </label>
           <select
+            className="select block mt-1 w-full"
             name="swellUnits"
             id="swellUnits"
             onChange={(event) => setSwellUnits(event.currentTarget.value)}
@@ -65,9 +66,10 @@ function Settings(props: SettingsProps) {
         </div>
         <div>
           <label className="mr-2" htmlFor="windUnits">
-            🌬 Wind Units:
+            🌬 Wind Units
           </label>
           <select
+            className="select block mt-1 w-full"
             name="windUnits"
             id="windUnits"
             onChange={(event) => setWindUnits(event.currentTarget.value)}
@@ -79,9 +81,10 @@ function Settings(props: SettingsProps) {
         </div>
         <div>
           <label className="mr-2" htmlFor="darkMode">
-            🌗 Dark Mode:
+            🌗 Dark Mode
           </label>
           <select
+            className="select block mt-1 w-full"
             name="darkMode"
             id="darkMode"
             onChange={(event) => setDarkMode(event.currentTarget.value)}
