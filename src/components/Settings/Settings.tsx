@@ -1,5 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0"
 import React, { useContext } from "react"
+import { useDetectClickOutside } from "react-detect-click-outside"
 
 import IconX from "../../assets/svg/x.svg"
 import SettingsContext from "../../contexts/settings-context"
@@ -19,6 +20,7 @@ function Settings(props: SettingsProps) {
   } = useContext(SettingsContext)
 
   const { user, error, isLoading } = useUser()
+  const ref = useDetectClickOutside({ onTriggered: props.onRequestClose })
 
   const renderLogin = () => {
     if (isLoading) return <div>Loading...</div>
@@ -40,7 +42,10 @@ function Settings(props: SettingsProps) {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 h-full p-6 text-xs text-gray-900 dark:text-yellow-300 font-medium uppercase tracking-wider relative">
+    <div
+      className="bg-white dark:bg-gray-800 h-full p-6 text-xs text-gray-900 dark:text-yellow-300 font-medium uppercase tracking-wider relative"
+      ref={ref}
+    >
       <button
         className="absolute top-2 right-2 p-4 dark:text-yellow-300"
         title="Close"

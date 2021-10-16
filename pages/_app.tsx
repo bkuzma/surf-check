@@ -85,16 +85,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         >
           <div className="pb-24 relative bg-gray-50 dark:bg-gray-800 min-h-full text-gray-900 dark:text-gray-300">
             <Header />
-            <div
-              className={classNames(
-                "fixed z-20 left-0 h-full w-3/5 sm:w-96 top-0 shadow",
-                {
-                  hidden: !isSettingsVisible,
-                }
-              )}
-            >
-              <Settings onRequestClose={onSettingsRequestClose} />
-            </div>
+            {isSettingsVisible && (
+              <div
+                className={classNames(
+                  "fixed z-20 left-0 h-full w-3/5 sm:w-96 top-0 shadow"
+                )}
+              >
+                <Settings onRequestClose={onSettingsRequestClose} />
+              </div>
+            )}
             <div className="container mx-auto">
               <Component {...pageProps} />
             </div>
