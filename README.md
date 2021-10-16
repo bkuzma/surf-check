@@ -6,28 +6,43 @@ Surf Check started as a surf forecasting app for the Jæren area of Norway. I fo
 
 Later on, after rereading some of William Finnegan's [writings](https://www.newyorker.com/magazine/1992/08/24/playing-docs-games-part-one) about Mark "Doc" Renneker, a San Francisco-based surfer who kept a meticuous journal of surf conditions every single time he went surfing, I thought it'd be great to add a journaling feature to the app.
 
-This project also gave me an excuse to learn [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), [useSWR](https://swr.vercel.app/), and [serverless technologies](https://css-tricks.com/serverless/), among others.
+This project also gave me an excuse to learn [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/), [useSWR](https://swr.vercel.app/), [auth0](https://auth0.com/) and [fauna](https://fauna.com/), among others.
 
-## Available Scripts
+## Local Development
 
-In the project directory, you can run:
+To get the project running locally, run the following in the project directory:
 
-### `yarn dev`
+```sh
+# Install dependencies
+yarn install
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Log in to Vercel
+npx vercel login
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Environment variables are set in Vercel; this command pulls them down
+# into a local .env.local file
+yarn pull-env-vars
 
-### `yarn build`
+# Start Next.js development server
+yarn dev
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To serve the built version of our app:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+# Bundles the app in production mode
+yarn build
+
+# Starts a server that serves the built files
+yarn start
+```
+
+To lint:
+
+```sh
+yarn lint
+```
 
 ## Deployment
 
-This project is deployed via [Vercel](https://vercel.com/).
+This project is hosted with [Vercel](https://vercel.com/). When a branch is pushed to remote, Vercel creates a dynamic review app from that branch. Any pushes to the `main` branch result in a deployment to the production site.
