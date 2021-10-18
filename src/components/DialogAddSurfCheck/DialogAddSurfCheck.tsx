@@ -63,13 +63,10 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
       window.alert("Something went wrong, please try again")
     }
   }
-
-  const defaultWindDirection = props.forecastData?.wind.direction?.toFixed(0)
-
   const windDirection = useWatch({
     control,
     name: "windDirection",
-    defaultValue: defaultWindDirection,
+    defaultValue: 0,
   })
 
   const isSubmitting = formState === "submitting"
@@ -117,7 +114,7 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               </div>
               <input
                 className="input-text w-20 mt-1 block"
-                defaultValue={defaultWindDirection}
+                defaultValue={props.forecastData?.wind.direction?.toFixed(0)}
                 {...register("windDirection")}
               />
             </label>
