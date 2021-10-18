@@ -17,6 +17,7 @@ export interface SurfCheck {
 
 export interface WindMeasurement {
   direction: number
+  /** Wind speed in miles per hour */
   speed: number
 }
 

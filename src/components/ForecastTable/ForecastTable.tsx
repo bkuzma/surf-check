@@ -2,6 +2,7 @@ import { useUser } from "@auth0/nextjs-auth0"
 import { format, parseISO } from "date-fns"
 import { useState } from "react"
 
+import { getWindSpeedInMph } from "../../../lib/util"
 import ClipboardList from "../../assets/svg/clipboard-list.svg"
 import type { SwellGroup as SwellGroupType } from "../../types"
 import DialogAddSurfCheck from "../DialogAddSurfCheck/DialogAddSurfCheck"
@@ -14,6 +15,7 @@ export interface ForecastTableRow {
   swells: SwellGroupType
   wind: {
     direction?: number
+    /** Wind speed in meters per second */
     speed?: number
   }
 }
@@ -83,7 +85,7 @@ function ForecastTable(props: ForecastTableProps) {
                   {time.wind.direction && time.wind.speed && (
                     <Wind
                       direction={time.wind.direction}
-                      speed={time.wind.speed}
+                      speed={getWindSpeedInMph(time.wind.speed)}
                     />
                   )}
                 </td>

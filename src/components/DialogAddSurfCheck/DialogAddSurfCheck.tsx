@@ -4,6 +4,7 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form"
 import useSWR, { mutate } from "swr"
 
 import fetcher from "../../../lib/fetcher"
+import { getWindSpeedInMph } from "../../../lib/util"
 import Dialog from "../Dialog/Dialog"
 import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
 import type { ForecastTableRow } from "../ForecastTable/ForecastTable"
@@ -100,6 +101,10 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               <input
                 className="input-text w-20 mt-1 block"
                 type="number"
+                defaultValue={
+                  props.forecastData?.wind.speed &&
+                  getWindSpeedInMph(props.forecastData.wind.speed).toFixed(0)
+                }
                 {...register("windSpeed")}
               />
             </label>
@@ -111,6 +116,7 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               <input
                 className="input-text w-20 mt-1 block"
                 type="number"
+                defaultValue={props.forecastData?.wind.direction?.toFixed(0)}
                 {...register("windDirection")}
               />
             </label>

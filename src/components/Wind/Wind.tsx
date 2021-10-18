@@ -1,10 +1,12 @@
 import { useContext } from "react"
 
+import { getWindSpeedInMps } from "../../../lib/util"
 import settingsContext from "../../contexts/settings-context"
 import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
 
 interface WindProps {
   direction: number
+  /** Wind speed in miles per hour */
   speed: number
 }
 
@@ -26,10 +28,10 @@ export default function Wind(props: WindProps) {
   let windUnit
   let arrowSize
 
-  const windInMph = (props.speed * 2.237).toFixed(1)
+  const windInMps = getWindSpeedInMps(props.speed)
 
-  arrowSize = getArrowSizeFromWindSpeed(Number(windInMph))
-  windSpeed = windUnits === "mph" ? windInMph : props.speed
+  arrowSize = getArrowSizeFromWindSpeed(props.speed)
+  windSpeed = (windUnits === "mph" ? props.speed : windInMps).toFixed(1)
   windUnit = windUnits === "mph" ? "mph" : "m/s"
 
   return (
