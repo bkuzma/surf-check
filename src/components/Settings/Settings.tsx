@@ -3,7 +3,7 @@ import React, { useContext } from "react"
 import { useDetectClickOutside } from "react-detect-click-outside"
 
 import IconX from "../../assets/svg/x.svg"
-import SettingsContext from "../../contexts/settings-context"
+import { useSettings } from "../SettingsProvider/SettingsProvider"
 
 interface SettingsProps {
   onRequestClose: () => void
@@ -17,7 +17,7 @@ function Settings(props: SettingsProps) {
     setWindUnits,
     swellUnits,
     windUnits,
-  } = useContext(SettingsContext)
+  } = useSettings()
 
   const { user, error, isLoading } = useUser()
   const ref = useDetectClickOutside({ onTriggered: props.onRequestClose })

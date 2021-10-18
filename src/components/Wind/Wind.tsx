@@ -1,8 +1,6 @@
-import { useContext } from "react"
-
 import { getWindSpeedInMps } from "../../../lib/util"
-import settingsContext from "../../contexts/settings-context"
 import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
+import { useSettings } from "../SettingsProvider/SettingsProvider"
 
 interface WindProps {
   direction: number
@@ -22,7 +20,7 @@ const getArrowSizeFromWindSpeed = (windSpeedInMph: number): number => {
 }
 
 export default function Wind(props: WindProps) {
-  const { windUnits } = useContext(settingsContext)
+  const { windUnits } = useSettings()
 
   let windSpeed
   let windUnit

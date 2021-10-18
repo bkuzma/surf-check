@@ -1,6 +1,22 @@
-import { ReactNode, useEffect, useState } from "react"
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
 
-import SettingsContext from "../../contexts/settings-context"
+interface SettingsContextProps {
+  darkModePreference: string
+  swellUnits: string
+  windUnits: string
+  setDarkMode: (setting: string) => void
+  setWindUnits: (units: string) => void
+  setSwellUnits: (units: string) => void
+  shouldUseDarkMode: boolean
+}
+
+const SettingsContext = createContext({} as SettingsContextProps)
 
 interface SettingsProviderProps {
   children: ReactNode
@@ -12,7 +28,7 @@ const LOCAL_STORAGE_KEYS = {
   WIND_UNITS: "WIND_UNITS",
 }
 
-export default function SettingsProvider(props: SettingsProviderProps) {
+export function SettingsProvider(props: SettingsProviderProps) {
   const [darkModePreference, setDarkModePreference] = useState("system")
   const [swellUnits, setSwellUnits] = useState("feet")
   const [windUnits, setWindUnits] = useState("mph")
@@ -66,4 +82,14 @@ export default function SettingsProvider(props: SettingsProviderProps) {
       {props.children}
     </SettingsContext.Provider>
   )
+}
+
+export function useSettings() {
+  const context = useContext(SettingsContext)
+
+  if (context === undefined) {
+    throw new Error("useSettings must be used within a SettingsProvider")
+  }
+
+  return context
 }

@@ -1,13 +1,11 @@
-import { useContext } from "react"
-
-import SettingsContext from "../../contexts/settings-context"
 import { SwellGroup as ISwellGroup } from "../../types"
+import { useSettings } from "../SettingsProvider/SettingsProvider"
 import Swell from "../Swell/Swell"
 
 export interface SwellGroupProps extends ISwellGroup {}
 
 export default function SwellGroup(props: SwellGroupProps) {
-  const { swellUnits } = useContext(SettingsContext)
+  const { swellUnits } = useSettings()
 
   return (
     <div className="space-y-1">

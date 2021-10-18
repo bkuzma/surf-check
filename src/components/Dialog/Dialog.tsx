@@ -2,7 +2,7 @@ import { Dialog as HeadlessDialog, Transition } from "@headlessui/react"
 import classNames from "classnames"
 import { Fragment, ReactNode, useContext } from "react"
 
-import settingsContext from "../../contexts/settings-context"
+import { useSettings } from "../SettingsProvider/SettingsProvider"
 
 interface DialogProps {
   children: ReactNode
@@ -11,7 +11,7 @@ interface DialogProps {
 }
 
 export default function Dialog(props: DialogProps) {
-  const { shouldUseDarkMode } = useContext(settingsContext)
+  const { shouldUseDarkMode } = useSettings()
 
   return (
     <Transition.Root show={props.isOpen} as={Fragment}>
