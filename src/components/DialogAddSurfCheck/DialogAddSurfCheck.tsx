@@ -100,7 +100,6 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               Wind Speed (mph)
               <input
                 className="input-text w-20 mt-1 block"
-                type="number"
                 defaultValue={
                   props.forecastData?.wind.speed &&
                   getWindSpeedInMph(props.forecastData.wind.speed).toFixed(0)
@@ -115,7 +114,6 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               </div>
               <input
                 className="input-text w-20 mt-1 block"
-                type="number"
                 defaultValue={props.forecastData?.wind.direction?.toFixed(0)}
                 {...register("windDirection")}
               />
