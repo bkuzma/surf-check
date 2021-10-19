@@ -4,7 +4,7 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form"
 import useSWR, { mutate } from "swr"
 
 import fetcher from "../../../lib/fetcher"
-import { getWindSpeedInMph } from "../../../lib/util"
+import { getWindSpeedInMph, round } from "../../../lib/util"
 import Dialog from "../Dialog/Dialog"
 import DirectionalArrow from "../DirectionalArrow/DirectionalArrow"
 import type { ForecastTableRow } from "../ForecastTable/ForecastTable"
@@ -47,7 +47,14 @@ const putSurfCheck = (payload: PutSurfCheckInput) =>
 
 export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
   const [formState, setFormState] = useState("initial")
-  const { control, register, handleSubmit } = useForm<FormInput>()
+  const { control, register, handleSubmit } = useForm<FormInput>({
+    defaultValues: {
+      windDirection: props.forecastData?.wind.direction,
+      windSpeed:
+        props.forecastData?.wind.speed &&
+        round(getWindSpeedInMph(props.forecastData.wind.speed), 1),
+    },
+  })
   const { data: spots } = useSWR<Spot[]>("/api/spots", fetcher)
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
@@ -63,10 +70,10 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
       window.alert("Something went wrong, please try again")
     }
   }
+
   const windDirection = useWatch({
     control,
     name: "windDirection",
-    defaultValue: 0,
   })
 
   const isSubmitting = formState === "submitting"
@@ -100,10 +107,6 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               Wind Speed (mph)
               <input
                 className="input-text w-20 mt-1 block"
-                defaultValue={
-                  props.forecastData?.wind.speed &&
-                  getWindSpeedInMph(props.forecastData.wind.speed).toFixed(0)
-                }
                 {...register("windSpeed")}
               />
             </label>
@@ -114,7 +117,6 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               </div>
               <input
                 className="input-text w-20 mt-1 block"
-                defaultValue={props.forecastData?.wind.direction?.toFixed(0)}
                 {...register("windDirection")}
               />
             </label>
