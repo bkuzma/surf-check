@@ -28,6 +28,16 @@ const handler: NextApiHandler = async (request, response) => {
             primary: {
               create: swellGroup.primary,
             },
+            ...(swellGroup.secondary && {
+              secondary: {
+                create: swellGroup.secondary,
+              },
+            }),
+            ...(swellGroup.tertiary && {
+              tertiary: {
+                create: swellGroup.tertiary,
+              },
+            }),
           },
         },
         wind: {
