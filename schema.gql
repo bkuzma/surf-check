@@ -19,8 +19,8 @@ type SwellGroup {
 }
 
 type Wind {
-  direction: Int!
-  speed: Int!
+  direction: Float!
+  speed: Float!
 }
 
 type SurfCheck {
