@@ -6,11 +6,15 @@ import {
   useState,
 } from "react"
 
+import { Location, LOCATIONS } from "../Forecast/Locations"
+
 interface SettingsContextProps {
   darkModePreference: string
+  locationName: string
   swellUnits: string
   windUnits: string
   setDarkMode: (setting: string) => void
+  setLocationName: (name: string) => void
   setWindUnits: (units: string) => void
   setSwellUnits: (units: string) => void
   shouldUseDarkMode: boolean
@@ -24,6 +28,7 @@ interface SettingsProviderProps {
 
 const LOCAL_STORAGE_KEYS = {
   DARK_MODE: "DARK_MODE",
+  LOCATION_NAME: "LOCATION_NAME",
   SWELL_UNITS: "SWELL_UNITS",
   WIND_UNITS: "WIND_UNITS",
 }
@@ -32,6 +37,7 @@ export function SettingsProvider(props: SettingsProviderProps) {
   const [darkModePreference, setDarkModePreference] = useState("system")
   const [swellUnits, setSwellUnits] = useState("feet")
   const [windUnits, setWindUnits] = useState("mph")
+  const [locationName, setLocationName] = useState(LOCATIONS[0].name)
 
   /*
 	We put references to localStorage in an effect because Web APIs are not available
@@ -46,6 +52,10 @@ export function SettingsProvider(props: SettingsProviderProps) {
       localStorage.getItem(LOCAL_STORAGE_KEYS.SWELL_UNITS) || "feet"
     )
     setWindUnits(localStorage.getItem(LOCAL_STORAGE_KEYS.WIND_UNITS) || "mph")
+    setLocationName(
+      localStorage.getItem(LOCAL_STORAGE_KEYS.LOCATION_NAME) ||
+        LOCATIONS[0].name
+    )
   }, [])
 
   let doesSystemUseDarkMode = false
@@ -62,9 +72,14 @@ export function SettingsProvider(props: SettingsProviderProps) {
     <SettingsContext.Provider
       value={{
         darkModePreference,
+        locationName,
         setDarkMode: (setting) => {
           setDarkModePreference(setting)
           localStorage.setItem(LOCAL_STORAGE_KEYS.DARK_MODE, setting)
+        },
+        setLocationName: (value) => {
+          setLocationName(value)
+          localStorage.setItem(LOCAL_STORAGE_KEYS.LOCATION_NAME, value)
         },
         setSwellUnits: (value) => {
           setSwellUnits(value)

@@ -3,6 +3,7 @@ import React, { useContext } from "react"
 import { useDetectClickOutside } from "react-detect-click-outside"
 
 import IconX from "../../assets/svg/x.svg"
+import { LOCATIONS } from "../Forecast/Locations"
 import { useSettings } from "../SettingsProvider/SettingsProvider"
 
 interface SettingsProps {
@@ -12,7 +13,9 @@ interface SettingsProps {
 function Settings(props: SettingsProps) {
   const {
     darkModePreference,
+    locationName,
     setDarkMode,
+    setLocationName,
     setSwellUnits,
     setWindUnits,
     swellUnits,
@@ -54,6 +57,24 @@ function Settings(props: SettingsProps) {
       </button>
       <div className="space-y-4">
         <h4 className="text-base">Settings</h4>
+        <div>
+          <label className="mr-2" htmlFor="swellUnits">
+            🏝 Forecast Location
+          </label>
+          <select
+            className="select block mt-1 w-full"
+            name="locationName"
+            id="locationName"
+            onChange={(event) => setLocationName(event.currentTarget.value)}
+            value={locationName}
+          >
+            {LOCATIONS.map((location) => (
+              <option value={location.name} key={location.name}>
+                {location.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div>
           <label className="mr-2" htmlFor="swellUnits">
             🌊 Swell Units

@@ -1,6 +1,5 @@
-import axios from "axios"
 import { format, formatISO, fromUnixTime, isEqual, parseISO } from "date-fns"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import useSWR from "swr"
 
 import fetcher from "../../../lib/fetcher"
@@ -8,22 +7,20 @@ import { RootObject } from "../../types/msw"
 import { METJSONForecast } from "../../types/yr"
 import ForecastTable, { ForecastTableRow } from "../ForecastTable/ForecastTable"
 import LoadingIndicator from "../LoadingIndicator/LoadingIndicator"
-
-const LOCATION_BORE = {
-  lat: 58.7974,
-  long: 5.5384,
-}
-
-const YR_URL = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat=${LOCATION_BORE.lat}&lon=${LOCATION_BORE.long}`
-const MSW_URL = "/api/magic-seaweed-forecast"
+import { useSettings } from "../SettingsProvider/SettingsProvider"
+import { LOCATIONS } from "./Locations"
 
 function Forecast() {
+  const { locationName } = useSettings()
+  const location = LOCATIONS.find((location) => location.name === locationName)
+  const mswUrl = `/api/magic-seaweed-forecast?location=${location?.mswId}`
+  const yrUrl = `https://api.met.no/weatherapi/locationforecast/2.0/complete.json?lat=${location?.latitude}&lon=${location?.longitude}`
   const { data: mswData, error: mswError } = useSWR<RootObject[]>(
-    MSW_URL,
+    mswUrl,
     fetcher
   )
   const { data: yrData, error: yrError } = useSWR<METJSONForecast>(
-    YR_URL,
+    yrUrl,
     fetcher
   )
 
