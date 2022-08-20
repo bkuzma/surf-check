@@ -19,6 +19,9 @@ yarn install
 # Log in to Vercel
 npx vercel login
 
+# Link project to Vercel
+npx vercel link
+
 # Environment variables are set in Vercel; this command pulls them down
 # into a local .env.local file
 yarn pull-env-vars
