@@ -15,11 +15,23 @@ const handler: NextApiHandler = async (request, response) => {
   } = {
     POST: async () => {
       const {
-        body: { didSurf, spotId, swellGroup, windDirection, windSpeed },
+        body: {
+          didCloseOut,
+          didSurf,
+          didWork,
+          spotId,
+          swellGroup,
+          wasLinedUp,
+          waveSize,
+          windDirection,
+          windSpeed,
+        },
       } = request
       const created = await createSurfCheck({
         auth0UserId: user.sub,
+        didCloseOut,
         didSurf,
+        didWork,
         spot: {
           connect: spotId,
         },
@@ -40,6 +52,8 @@ const handler: NextApiHandler = async (request, response) => {
             }),
           },
         },
+        wasLinedUp,
+        waveSize,
         wind: {
           create: {
             direction: Number(windDirection),

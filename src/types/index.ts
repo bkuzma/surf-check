@@ -8,10 +8,20 @@ export interface SurfChecks {
   data: SurfCheck[]
 }
 
+enum WaveSize {
+  SMALL,
+  MEDIUM,
+  LARGE,
+}
+
 export interface SurfCheck {
   _ts: number
+  didCloseOut: boolean
   didSurf: boolean
+  didWork: boolean
   swellGroup: SwellGroup
+  wasLinedUp: boolean
+  waveSize: WaveSize
   wind: WindMeasurement
 }
 

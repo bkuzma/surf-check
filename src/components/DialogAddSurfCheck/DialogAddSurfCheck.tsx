@@ -17,8 +17,12 @@ interface DialogAddSurfCheckProps {
 }
 
 interface FormInput {
+  didCloseOut: boolean
   didSurf: boolean
+  didWork: boolean
   spotId: string
+  wasLinedUp: boolean
+  waveSize: "SMALL" | "MEDIUM" | "LARGE"
   windDirection: number
   windSpeed: number
 }
@@ -135,6 +139,26 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               ))}
             </select>
           </label>
+          <label className="label block">
+            Size
+            <select
+              {...register("waveSize")}
+              className="mt-1 block w-full select"
+            >
+              <option value={undefined}>Choose</option>
+              <option value="SMALL">Ankle to knee</option>
+              <option value="MEDIUM">Thigh to chest</option>
+              <option value="LARGE">Shoulder and up</option>
+            </select>
+          </label>
+          <label className="label flex items-center">
+            <input
+              {...register("didWork")}
+              type="checkbox"
+              className="h-4 w-4 mr-2"
+            />
+            Surfable
+          </label>
           <label className="label flex items-center">
             <input
               {...register("didSurf")}
@@ -142,6 +166,22 @@ export default function DialogAddSurfCheck(props: DialogAddSurfCheckProps) {
               className="h-4 w-4 mr-2"
             />
             Paddled out
+          </label>
+          <label className="label flex items-center">
+            <input
+              {...register("didCloseOut")}
+              type="checkbox"
+              className="h-4 w-4 mr-2"
+            />
+            Closed out
+          </label>
+          <label className="label flex items-center">
+            <input
+              {...register("wasLinedUp")}
+              type="checkbox"
+              className="h-4 w-4 mr-2"
+            />
+            Lined Up
           </label>
         </div>
         <div className="mt-6 sm:flex sm:flex-row-reverse">

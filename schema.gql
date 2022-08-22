@@ -1,3 +1,9 @@
+enum WaveSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
 type Spot {
   auth0UserId: String!
   name: String!
@@ -25,9 +31,13 @@ type Wind {
 
 type SurfCheck {
   auth0UserId: String!
+  didCloseOut: Boolean
   didSurf: Boolean!
+  didWork: Boolean
   spot: Spot!
   swellGroup: SwellGroup!
+  wasLinedUp: Boolean
+  waveSize: WaveSize
   wind: Wind!
 }
 
