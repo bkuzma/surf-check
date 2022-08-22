@@ -34,7 +34,7 @@ export default function Header() {
                       className={classNames(
                         {
                           "bg-green-600 dark:bg-green-800":
-                            link.href === router.pathname,
+                            link.href === `/${router.pathname.split("/")[1]}`,
                         },
                         "block uppercase text-xs tracking-wider font-medium p-2 hover:bg-green-600 dark:hover:bg-green-700 rounded"
                       )}
